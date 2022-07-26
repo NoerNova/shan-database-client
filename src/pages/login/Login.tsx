@@ -4,6 +4,14 @@ import "./Login.scss";
 import shanlogo from "../../assets/images/SHAN Logo 2020.png";
 import { Lock } from "tabler-icons-react";
 
+import login from "../../helpers/login";
+
+interface response {
+  status: number;
+  sid: string;
+  username: string;
+}
+
 interface userTokenProps {
   token: string;
 }
@@ -13,16 +21,23 @@ interface setTokenProps {
 }
 
 export default function Login({ setToken }: { setToken: setTokenProps }) {
-  const [username, setUserName] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [username, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const token = await loginUser({
+    // const loginRes = await login({
     //   username,
-    //   password
+    //   password,
     // });
-    const token: userTokenProps = { token: "1234" };
+
+    // if (loginRes.error) {
+    //   return setError(true);
+    // }
+
+    // const token: userTokenProps = { token: loginRes.data.sid };
+    const token = { token: "1234" };
     setToken(token);
   };
 
@@ -55,6 +70,7 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm bg-white"
                     placeholder="User Name"
                     onChange={(e) => setUserName(e.target.value)}
+                    onFocus={() => setError(false)}
                   />
                 </div>
                 <div>
@@ -70,6 +86,7 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm bg-white"
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setError(false)}
                   />
                 </div>
               </div>
@@ -107,6 +124,16 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
                   </span>
                   Sign in
                 </button>
+              </div>
+              <div className="text-sm">
+                {error && (
+                  <label
+                    htmlFor="error"
+                    className="ml-2 block text-sm text-red-600 flex justify-end"
+                  >
+                    something wrong, please try again
+                  </label>
+                )}
               </div>
             </form>
           </div>

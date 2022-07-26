@@ -132,7 +132,7 @@ var ezDecodeChars = new Array(
   -1
 );
 
-function utf16to8(str) {
+function utf16to8(str: string) {
   var out, i, len, c;
   out = "";
   len = str.length;
@@ -151,7 +151,7 @@ function utf16to8(str) {
   }
   return out;
 }
-function utf8to16(str) {
+function utf8to16(str: string) {
   var out, i, len, c;
   var char2, char3;
 
@@ -190,7 +190,7 @@ function utf8to16(str) {
   return out;
 }
 
-function ezEncode(str) {
+export function ezEncode(str: string) {
   var out, i, len;
   var c1, c2, c3;
 
