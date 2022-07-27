@@ -23,6 +23,7 @@
       "@helpers/*": ["helpers/*"],
       "@pages/*": ["pages/*"],
       "@util/*": ["util/*"],
+      "@recoil-state/*": ["recoil-state/*"],
       "@routes/*": ["routes/*"]
     }
   },

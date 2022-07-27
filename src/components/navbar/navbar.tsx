@@ -1,13 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
-import { Outlet, Link } from "react-router-dom";
-import { ActionIcon, useMantineColorScheme, Avatar } from "@mantine/core";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 
 import { Sun, Moon } from "tabler-icons-react";
 
-import shanlogo from "../../assets/images/SHAN Logo 2020.png";
+import shanlogo from "assets/images/SHAN Logo 2020.png";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },

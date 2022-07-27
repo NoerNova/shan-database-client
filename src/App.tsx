@@ -13,6 +13,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import useToken from "./utils/useToken";
 
+import { RecoilRoot } from "recoil";
+
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -25,24 +27,26 @@ function App() {
   }
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        theme={{ colorScheme }}
-        withGlobalStyles
-        withNormalizeCSS
+    <RecoilRoot>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
       >
-        <BrowserRouter>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </div>
-        </BrowserRouter>
-      </MantineProvider>
-    </ColorSchemeProvider>
+        <MantineProvider
+          theme={{ colorScheme }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <BrowserRouter>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </RecoilRoot>
   );
 }
 
