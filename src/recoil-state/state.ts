@@ -6,4 +6,9 @@ const searchResultState = atom<indexPropsType | any>({
   default: [],
 });
 
-export { searchResultState };
+const searchSelector = atom({
+  key: "searchSelector",
+  default: ["All"],
+});
+
+export { searchResultState, searchSelector };

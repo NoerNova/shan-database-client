@@ -19,9 +19,10 @@ export const searchIndex = async (
   searchValue: string
 ): Promise<indexPropsType[]> => {
   const searcher = new Fuse(indexDB, {
-    keys: ["name"],
+    keys: ["name", "path"],
     isCaseSensitive: false,
     includeScore: true,
+    useExtendedSearch: true,
   });
 
   const result = searcher.search(searchValue);

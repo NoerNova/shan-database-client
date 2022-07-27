@@ -1,0 +1,46 @@
+interface suffixTypes {
+  [key: string]: string[];
+}
+export const suffix: suffixTypes = {
+  Audios: ["m4a", "m4b", "mp3", "wav", "amr"],
+  Compress: ["zip", "rar", "part"],
+  Documents: [
+    "pdf",
+    "docx",
+    "doc",
+    "txt",
+    "xls",
+    "ppt",
+    "xlsx",
+    "odt",
+    "pptx",
+    "pmd",
+    "wps",
+  ],
+  Fonts: ["ttf", "TTF", "woff", "woff2"],
+  Images: [
+    "jpg",
+    "jpeg",
+    "png",
+    "tif",
+    "psd",
+    "ai",
+    "gif",
+    "ico",
+    "cr2",
+    "eps",
+    "bmp",
+  ],
+  Videos: [
+    "mp4",
+    "MOV",
+    "mov",
+    "wmv",
+    "vob",
+    "bup",
+    "ifo",
+    "flv",
+    "aac",
+    "3gp",
+  ],
+};

@@ -6,34 +6,35 @@ import { useStyles } from "./search-box.styled";
 
 import { searchIndex } from "./searchIndex";
 import { useRecoilState } from "recoil";
-import { searchResultState } from "recoil-state/state";
+import { searchResultState, searchSelector } from "recoil-state/state";
+import { suffix } from "./suffix";
 
 export default function SearchBox() {
   const { classes } = useStyles();
-  const [selector, setSelector] = useState(["all"]);
+  const [selector, setSelector] = useRecoilState(searchSelector);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [resultList, setResultList] = useRecoilState(searchResultState);
   const [noresult, setNoResult] = useState(false);
 
-  //TODO: apply selector search
-
   const changeSelector = (value: string[]) => {
-    if (value.length >= 4) {
-      setSelector(["all"]);
+    if (value.length >= 6 || value.length <= 0) {
+      setSelector(["All"]);
     } else {
       if (value.length >= 2) {
-        let valueIncludeAll = value.includes("all");
-        let selectorIncludeAll = selector.includes("all");
+        let valueIncludeAll = value.includes("All");
+        let selectorIncludeAll = selector.includes("All");
 
         if (valueIncludeAll && selectorIncludeAll) {
-          let result = value.filter((s) => s !== "all");
+          let result = value.filter((s) => s !== "All");
           setSelector(result);
         } else if (valueIncludeAll) {
-          setSelector(["all"]);
+          setSelector(["All"]);
         } else {
           setSelector(value);
         }
+      } else {
+        setSelector(value);
       }
     }
   };
@@ -45,9 +46,9 @@ export default function SearchBox() {
 
     const timeout = setTimeout(() => {
       triggerSearch();
-    }, 1000); //2000 - timeout to execute this function if timeout will be not cleared
+    }, 1000);
 
-    return () => clearTimeout(timeout); //clear timeout (delete function execution)
+    return () => clearTimeout(timeout);
   }, [searchTerm]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -57,21 +58,37 @@ export default function SearchBox() {
     setSearchTerm(value);
   };
 
+  const handleSearchButton = () => {
+    setResultList([]);
+    setNoResult(false);
+    triggerSearch();
+  };
+
   const triggerSearch = async () => {
     if (!searchTerm) {
       setResultList([]);
       return;
     }
 
-    const filtered = await searchIndex(searchTerm);
+    let search = await searchIndex(searchTerm);
 
-    if (filtered.length == 0) {
+    if (search.length == 0) {
       setNoResult(true);
       return;
     }
 
-    const get10FromList = filtered.slice(0, 10);
-    setResultList(get10FromList);
+    if (selector.includes("All")) {
+      const get10FromList = search.slice(0, 10);
+      setResultList(get10FromList);
+    } else {
+      const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
+      const searchFiltered = search.filter((d) =>
+        suffixFilter.includes(d.type)
+      );
+
+      const get10FromList = searchFiltered.slice(0, 10);
+      setResultList(get10FromList);
+    }
   };
 
   return (
@@ -107,7 +124,7 @@ export default function SearchBox() {
             required
           />
           <button
-            onClick={() => handleSearch}
+            onClick={() => handleSearchButton()}
             className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Search
@@ -122,19 +139,25 @@ export default function SearchBox() {
           value={selector}
           onChange={changeSelector}
         >
-          <Chip classNames={classes} value="images">
-            Images
-          </Chip>
-          <Chip classNames={classes} value="documents">
-            Documents
-          </Chip>
-          <Chip classNames={classes} value="audios">
+          <Chip classNames={classes} value="Audios">
             Audios
           </Chip>
-          <Chip classNames={classes} value="videos">
+          <Chip classNames={classes} value="Compress">
+            Compress
+          </Chip>
+          <Chip classNames={classes} value="Documents">
+            Documents
+          </Chip>
+          <Chip classNames={classes} value="Fonts">
+            Fonts
+          </Chip>
+          <Chip classNames={classes} value="Images">
+            Images
+          </Chip>
+          <Chip classNames={classes} value="Videos">
             Videos
           </Chip>
-          <Chip classNames={classes} value="all">
+          <Chip classNames={classes} value="All">
             All
           </Chip>
         </Chip.Group>
