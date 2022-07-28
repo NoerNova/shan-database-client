@@ -11,4 +11,14 @@ const searchSelector = atom({
   default: ["All"],
 });
 
-export { searchResultState, searchSelector };
+const searchLoading = atom({
+  key: "searchLoading",
+  default: false,
+});
+
+const noSearchResult = atom({
+  key: "noSearchResult",
+  default: false,
+});
+
+export { searchResultState, searchSelector, searchLoading, noSearchResult };

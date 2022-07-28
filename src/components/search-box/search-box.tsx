@@ -6,7 +6,12 @@ import { useStyles } from "./search-box.styled";
 
 import { searchIndex } from "./searchIndex";
 import { useRecoilState } from "recoil";
-import { searchResultState, searchSelector } from "recoil-state/state";
+import {
+  searchResultState,
+  searchSelector,
+  searchLoading,
+  noSearchResult,
+} from "recoil-state/state";
 import { suffix } from "./suffix";
 
 export default function SearchBox() {
@@ -15,7 +20,9 @@ export default function SearchBox() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [resultList, setResultList] = useRecoilState(searchResultState);
-  const [noresult, setNoResult] = useState(false);
+  const [noresult, setNoResult] = useRecoilState(noSearchResult);
+
+  const [loading, setLoading] = useRecoilState(searchLoading);
 
   const changeSelector = (value: string[]) => {
     if (value.length >= 6 || value.length <= 0) {
@@ -41,6 +48,7 @@ export default function SearchBox() {
 
   useEffect(() => {
     if (searchTerm.length <= 0) {
+      setLoading(false);
       return;
     }
 
@@ -53,12 +61,14 @@ export default function SearchBox() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     const value = (e.target as HTMLInputElement).value;
+    setLoading(true);
     setNoResult(false);
     setResultList([]);
     setSearchTerm(value);
   };
 
   const handleSearchButton = () => {
+    setLoading(true);
     setResultList([]);
     setNoResult(false);
     triggerSearch();
@@ -67,6 +77,7 @@ export default function SearchBox() {
   const triggerSearch = async () => {
     if (!searchTerm) {
       setResultList([]);
+      setLoading(false);
       return;
     }
 
@@ -74,21 +85,24 @@ export default function SearchBox() {
 
     if (search.length == 0) {
       setNoResult(true);
+      setLoading(false);
       return;
     }
 
+    let get10FromList = [];
+
     if (selector.includes("All")) {
-      const get10FromList = search.slice(0, 10);
-      setResultList(get10FromList);
+      get10FromList = search;
     } else {
       const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
       const searchFiltered = search.filter((d) =>
         suffixFilter.includes(d.type)
       );
 
-      const get10FromList = searchFiltered.slice(0, 10);
-      setResultList(get10FromList);
+      get10FromList = searchFiltered;
     }
+    setResultList(get10FromList.slice(0, 50));
+    setLoading(false);
   };
 
   return (
