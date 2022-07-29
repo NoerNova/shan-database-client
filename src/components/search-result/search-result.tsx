@@ -7,6 +7,7 @@ import {
 import { useMantineColorScheme, Loader } from "@mantine/core";
 import { indexPropsType } from "../search-box/searchIndex";
 import { dateFormat } from "utils/date";
+import { Suspense } from "react";
 
 const DisplaySearchResult: React.FC = () => {
   const resultList = useRecoilValue<indexPropsType[]>(searchResultState);
@@ -19,6 +20,11 @@ const DisplaySearchResult: React.FC = () => {
   const defaultImageLogo =
     "https://shannews.org/wp-content/uploads/2021/05/Shan-Logo-used-2018-1_Optimize.png";
 
+
+  const getDefaultThumbnail = (type: string) => {
+    
+  }
+
   const getImageThumbnail = (path: string) => {
     const sid = import.meta.env.VITE_TEST_SID;
     const thumbURL = import.meta.env.VITE_IMAGE_THUMBNAIL_URL;
@@ -28,7 +34,7 @@ const DisplaySearchResult: React.FC = () => {
     const image_thumbnail_url = `${thumbURL}&sid=${sid}&path=${
       image_path![1]
     }&name=${image_name_path![1]}`;
-    console.log(image_thumbnail_url);
+    
     return image_thumbnail_url;
   };
 
@@ -45,16 +51,17 @@ const DisplaySearchResult: React.FC = () => {
           {resultList &&
             resultList.map(
               ({ id, name, type, path, create_time, modifiled_time }) => (
-                <li key={id} className="flex flex-row">
+                <Suspense fallback={<div>Loading...</div>}>
+                  <li key={id} className="flex flex-row">
                   <div
                     className={`select-none cursor-pointer rounded-lg flex flex-1 items-center p-2 ${
                       dark ? "hover:bg-gray-700" : "hover:bg-gray-100"
                     }`}
                   >
-                    <div className="flex flex-col w-40 h-40 justify-center items-center mr-4">
+                    <div className="flex flex-col w-50 h-50 justify-center items-center mr-10">
                       <a href="#" className="block relative">
-                        <object data={getImageThumbnail(path)} type="image/png">
-                          <img alt="profil" src={defaultImageLogo} />
+                        <object data={getImageThumbnail(path)} type="image/png" className="w-40 h-40 object-scale-down flex justify-center items-center">
+                          <img alt="thumb_nail" src={defaultImageLogo} loading='lazy'/>
                         </object>
                       </a>
                     </div>
@@ -75,6 +82,7 @@ const DisplaySearchResult: React.FC = () => {
                     </div>
                   </div>
                 </li>
+                </Suspense>
               )
             )}
         </ul>
