@@ -1,18 +1,37 @@
+import { useRef, useState, useEffect, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import {
   searchResultState,
   searchLoading,
   noSearchResult,
 } from "recoil-state/state";
-import { useMantineColorScheme, Loader } from "@mantine/core";
+import { useMantineColorScheme, Loader, Pagination } from "@mantine/core";
+import { usePagination } from "@mantine/hooks";
 import { indexPropsType } from "../search-box/searchIndex";
 import { dateFormat } from "utils/date";
 import { Suspense } from "react";
+
+import ViewportList from "react-viewport-list";
 
 const DisplaySearchResult: React.FC = () => {
   const resultList = useRecoilValue<indexPropsType[]>(searchResultState);
   const loading = useRecoilValue(searchLoading);
   const noresult = useRecoilValue(noSearchResult);
+
+  const viewportRef = useRef(null);
+  const listItemsPerPage = 10;
+  const totalPage = Math.ceil(resultList.length / listItemsPerPage);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentList, setCurrentList] = useState<indexPropsType[]>(resultList.slice(0, 10));
+
+
+  useEffect(() => {
+    let lastItemIndex = currentPage * listItemsPerPage;
+    let firstItemIndex = lastItemIndex - listItemsPerPage;
+    const newPageList = resultList.slice(firstItemIndex, lastItemIndex)
+    setCurrentList(newPageList);
+  },[currentPage, resultList])
+
 
   const { colorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
@@ -39,7 +58,7 @@ const DisplaySearchResult: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col mt-10 items-center justify-center">
+    <div ref={viewportRef} className="flex flex-col mt-10 items-center justify-center">
       {loading && <Loader color="gray" />}
       {!loading && resultList.length <= 0 && noresult && <p>No Result</p>}
       <div
@@ -47,12 +66,16 @@ const DisplaySearchResult: React.FC = () => {
           dark && "bg-gray-800"
         }`}
       >
+        {currentList.length > 0 &&
+          <div>
+            <div className="w-full">
+          <p className="font-bold">search result: {resultList.length}</p>
+        </div>
         <ul className="flex flex-col divide-y w-full">
-          {resultList &&
-            resultList.map(
-              ({ id, name, type, path, create_time, modifiled_time }) => (
-                <Suspense fallback={<div>Loading...</div>}>
-                  <li key={id} className="flex flex-row">
+          <ViewportList viewportRef={viewportRef} items={currentList} itemMinSize={10} margin={8}>
+              {(currentList) => (
+                <Suspense key={currentList.id}  fallback={<div>Loading...</div>}>
+                  <div className="flex flex-row">
                   <div
                     className={`select-none cursor-pointer rounded-lg flex flex-1 items-center p-2 ${
                       dark ? "hover:bg-gray-700" : "hover:bg-gray-100"
@@ -60,32 +83,37 @@ const DisplaySearchResult: React.FC = () => {
                   >
                     <div className="flex flex-col w-50 h-50 justify-center items-center mr-10">
                       <a href="#" className="block relative">
-                        <object data={getImageThumbnail(path)} type="image/png" className="w-40 h-40 object-scale-down flex justify-center items-center">
+                        <object data={getImageThumbnail(currentList.path)} className="w-40 h-40 object-scale-down flex justify-center items-center">
                           <img alt="thumb_nail" src={defaultImageLogo} loading='lazy'/>
                         </object>
                       </a>
                     </div>
                     <div className="flex-1 pl-1">
-                      <div className="font-medium">{name}</div>
+                      <div className="font-medium">{currentList.name}</div>
                       <div className="flex">
                         <p className="font-medium mr-2">type: </p>
-                        <p>{type}</p>
+                        <p>{currentList.type}</p>
                       </div>
                       <div className="flex">
                         <p className="font-medium mr-2">create date: </p>
-                        <p>{dateFormat(create_time.$date)}</p>
+                        <p>{dateFormat(currentList.create_time.$date)}</p>
                       </div>
                       <div className="flex">
                         <p className="font-medium mr-2">modifiled date: </p>
-                        <p>{dateFormat(modifiled_time.$date)}</p>
+                        <p>{dateFormat(currentList.modifiled_time.$date)}</p>
                       </div>
                     </div>
                   </div>
-                </li>
+                </div>
                 </Suspense>
-              )
-            )}
+              )}
+            </ViewportList>
         </ul>
+      <div className="m-10">
+      <Pagination total={totalPage} page={currentPage} boundaries={3} onChange={setCurrentPage} />
+      </div>
+          </div>
+        }
       </div>
     </div>
   );

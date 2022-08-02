@@ -89,19 +89,19 @@ export default function SearchBox() {
       return;
     }
 
-    let get10FromList = [];
+    let resultList = [];
 
     if (selector.includes("All")) {
-      get10FromList = search;
+      resultList = search;
     } else {
       const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
       const searchFiltered = search.filter((d) =>
         suffixFilter.includes(d.type)
       );
 
-      get10FromList = searchFiltered;
+      resultList = searchFiltered;
     }
-    setResultList(get10FromList.slice(0, 50));
+    setResultList(resultList);
     setLoading(false);
   };
 
@@ -122,9 +122,9 @@ export default function SearchBox() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               ></path>
             </svg>
