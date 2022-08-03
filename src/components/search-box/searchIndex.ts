@@ -1,6 +1,6 @@
 import Fuse from "fuse.js";
 import _ from "lodash";
-import { indexDB } from "@data/filelist_db";
+import indexDB from "@data/filelist_db.json" assert { type: 'JSON' };
 
 export interface indexPropsType {
   id: number;
