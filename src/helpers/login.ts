@@ -15,7 +15,7 @@ interface response {
 
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
-  const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
+  const url = `${LOGIN_URL}user=${username}&pwd=${pwd}&remme=0`;
 
   let data = {};
   let error;
