@@ -26,6 +26,9 @@ const DisplaySearchResult: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentList, setCurrentList] = useState<indexPropsType[]>(resultList.slice(0, 10));
 
+  useMemo(() => {
+    setCurrentPage(1)
+  }, [resultList])
 
   useEffect(() => {
     let lastItemIndex = currentPage * listItemsPerPage;

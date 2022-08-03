@@ -101,7 +101,7 @@ export default function SearchBox() {
 
       resultList = searchFiltered;
     }
-    setResultList(resultList);
+    setResultList(resultList.slice(0, 500));
     setLoading(false);
   };
 
