@@ -1,6 +1,8 @@
 import { forEach } from "lodash";
 import { suffix } from "components/search-box/suffix";
 
+import useToken from "utils/useToken";
+
 const getThumbnailFromType = (type: string) => {
   let typeInclude = "";
   let icon = "src/assets/filetypes-pack"
@@ -58,8 +60,7 @@ const getDefaultThumbnail = (type: string) => {
   }
 }
 
-const getThumbnailFromPath = (path: string) => {
-  const sid = import.meta.env.VITE_TEST_SID;
+const getThumbnailFromPath = (path: string, sid: string) => {
   const thumbURL = import.meta.env.VITE_IMAGE_THUMBNAIL_URL;
 
   const image_path = path.match("^(.*(?=[\\/]))");
@@ -70,13 +71,13 @@ const getThumbnailFromPath = (path: string) => {
   return image_thumbnail_url;
 }
 
-const getImageThumbnail = (type: string, path: string) => {
+const getImageThumbnail = (type: string, path: string, sid: string) => {
   switch (type.toLowerCase()) {
     case "png":
     case "jpg":
     case "jpeg":
     case "gif":
-      return getThumbnailFromPath(path)
+      return getThumbnailFromPath(path, sid)
     default:
       return getDefaultThumbnail(type)
   }

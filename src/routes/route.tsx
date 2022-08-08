@@ -7,4 +7,8 @@ export default Object.freeze({
     name: "Home",
     route: "/",
   },
+  LOGOUT: {
+    name: "Logout",
+    route: "/logout",
+  }
 });

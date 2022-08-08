@@ -27,17 +27,16 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const loginRes = await login({
-    //   username,
-    //   password,
-    // });
+    const loginRes = await login({
+      username,
+      password,
+    });
 
-    // if (loginRes.error) {
-    //   return setError(true);
-    // }
+    if (loginRes.error || !loginRes.data.sid) {
+      return setError(true);
+    }
 
-    // const token: userTokenProps = { token: loginRes.data.sid };
-    const token = { token: "1234" };
+    const token: userTokenProps = { token: loginRes.data.sid };
     setToken(token);
   };
 

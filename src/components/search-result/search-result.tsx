@@ -4,7 +4,11 @@ import {
   searchResultState,
   searchLoading,
   noSearchResult,
+  sidToken
 } from "recoil-state/state";
+
+import useToken from "utils/useToken";
+
 import { useMantineColorScheme, Loader, Pagination } from "@mantine/core";
 import { indexPropsType } from "../search-box/searchIndex";
 import { dateFormat } from "utils/date";
@@ -31,6 +35,8 @@ const DisplaySearchResult: React.FC = () => {
   const totalPage = Math.ceil(resultList.length / listItemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentList, setCurrentList] = useState<indexPropsType[]>(resultList.slice(0, 10));
+
+  const {token} = useToken();
 
   useMemo(() => {
     setCurrentPage(1)
@@ -69,9 +75,7 @@ const DisplaySearchResult: React.FC = () => {
                       <li className="li-container">
                         <div className="list-content-container">
                           <div className="image-container">
-                            <object data={getImageThumbnail(type, path)} className="w-40 h-40 object-scale-down flex justify-center items-center">
-                              <img alt="thumb_nail" src={defaultImageLogo} loading='lazy' />
-                            </object>
+                              <img alt="thumb_nail" src={getImageThumbnail(type, path, token)} loading='lazy' className="w-40 h-40 object-scale-down flex justify-center items-center"/>
                           </div>
                           <div className="content-container">
                             <div className="font-medium truncate">{name}</div>

@@ -7,7 +7,7 @@ import {
   ColorScheme,
 } from "@mantine/core";
 
-import { Home, Login } from "./pages";
+import { Home, Login, Logout } from "./pages";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -41,6 +41,8 @@ function App() {
             <div className="App">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login setToken={setToken} />} />
+                <Route path="/logout" element={<Logout />} />
               </Routes>
             </div>
           </BrowserRouter>
