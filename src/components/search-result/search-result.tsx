@@ -52,12 +52,12 @@ const DisplaySearchResult: React.FC = () => {
 
 
   return (
-    <div ref={viewportRef} className="flex flex-col m-10 items-center justify-center">
+    <div className="body-container">
       {loading && <Loader color="gray" />}
       {!loading && resultList.length <= 0 && noresult && <p>No Result</p>}
       {currentList.length > 0 &&
         <div>
-          <div className="container">
+          <div className="items-container">
             <div className="resultLength">
               <p className="font-bold">search result: {resultList.length}</p>
             </div>
@@ -134,7 +134,7 @@ const DisplaySearchResult: React.FC = () => {
               )}
             </ul>
           </div>
-          <div className="m-10">
+          <div className="flex m-10 justify-center items-center">
             <Pagination total={totalPage} page={currentPage} boundaries={3} onChange={setCurrentPage} />
           </div>
         </div>

@@ -1,9 +1,17 @@
-.container {
+.body-container {
+  display: flex;
+  flex: 1;
+  margin: 10px;
+  items-align: center;
+  justify-content: center;
+}
+.items-container {
   border-radius: 20px;
   padding: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  max-width: 960px;
+  width: 780px;
 }
+
 .resultLength {
   border-bottom: 1px solid gray;
 }
