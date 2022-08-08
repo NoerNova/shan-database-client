@@ -15,13 +15,19 @@ interface response {
 
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
-  const url = `${LOGIN_URL}user=${username}&pwd=${pwd}&remme=0`;
+  const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
 
   let data = {};
   let error;
 
-  await axios
-    .get(url)
+  await axios({
+      method: 'post',
+      url: url,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "mode": "no-cors"
+      }
+    })
     .then((response) => {
       data = JSON.stringify(response.data);
       console.log(data);
