@@ -6,12 +6,6 @@ import { Lock } from "tabler-icons-react";
 
 import login from "../../helpers/login";
 
-interface response {
-  status: number;
-  sid: string;
-  username: string;
-}
-
 interface userTokenProps {
   token: string;
 }

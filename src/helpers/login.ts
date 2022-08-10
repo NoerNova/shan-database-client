@@ -10,28 +10,22 @@ interface token {
 
 interface response {
   data: any;
-  error: undefined;
+  error: any;
 }
 
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
   const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
 
-  let data = {};
-  let error;
+  let data: any = {};
+  let error: any = {};
 
   try {
-   const response = await axios.post(
-     url,
-     {
-       headers: { "Content-Type": "application/json" },
-       withCredentials: true,
-     }
-   );
-   data = response?.data
- } catch (err) {
-   error = err
- }
+    const response = await axios.post(url);
+    data = response?.data
+  } catch (err) {
+    error = err
+  }
 
   return { data, error };
 };

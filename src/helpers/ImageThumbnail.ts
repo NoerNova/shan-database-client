@@ -1,8 +1,6 @@
 import { forEach } from "lodash";
 import { suffix } from "components/search-box/suffix";
 
-import useToken from "utils/useToken";
-
 const getThumbnailFromType = (type: string) => {
   let typeInclude = "";
   let icon = "src/assets/filetypes-pack"
