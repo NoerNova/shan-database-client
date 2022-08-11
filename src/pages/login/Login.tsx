@@ -18,6 +18,7 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("something wrong, try again later.")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +27,10 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
       password,
     });
 
-    if (loginRes.error || !loginRes.data.sid) {
+    if (loginRes.error.message) {
+      return setError(true);
+    } else if (loginRes.data.authPassed === 0) {
+      setErrorMessage('Credential wrong, please check and try again.')
       return setError(true);
     }
 
@@ -49,7 +53,6 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
               method="POST"
               onSubmit={handleSubmit}
             >
-              <input type="hidden" name="remember" defaultValue="true" />
               <div className="rounded-md shadow-sm -space-y-px">
                 <div>
                   <label htmlFor="user-name" className="sr-only">
@@ -83,27 +86,6 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
                   />
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm">
-                    Remember me
-                  </label>
-                </div>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-green-600 hover:text-green-500"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
               <div>
                 <button
                   type="submit"
@@ -124,7 +106,7 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
                     htmlFor="error"
                     className="ml-2 block text-sm text-red-600 flex justify-end"
                   >
-                    something wrong, please try again
+                    {errorMessage}
                   </label>
                 )}
               </div>
