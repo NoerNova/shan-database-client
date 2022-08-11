@@ -34,6 +34,9 @@ const DisplaySearchResult: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentList, setCurrentList] = useState<indexPropsType[]>(resultList.slice(0, 10));
 
+  const defaultImageLogo =
+    "https://shannews.org/wp-content/uploads/2021/05/Shan-Logo-used-2018-1_Optimize.png";
+
   const { token } = useToken();
 
   useMemo(() => {
@@ -66,7 +69,12 @@ const DisplaySearchResult: React.FC = () => {
                       <li className="li-container">
                         <div className="list-content-container">
                           <div className="image-container">
-                            <img alt="thumb_nail" src={getImageThumbnail(type, path, token)} loading='lazy' className="w-40 h-40 object-scale-down flex justify-center items-center" />
+                            <img
+                              alt="thumb_nail"
+                              src={getImageThumbnail(type, path, token)}
+                              onError={(e) => (e.currentTarget.src = defaultImageLogo)}
+                              loading='lazy'
+                              className="w-40 h-40 object-scale-down flex justify-center items-center" />
                           </div>
                           <div className="content-container">
                             <div className="font-medium truncate">{name}</div>

@@ -1,18 +1,35 @@
 import axios from "axios";
 
-const logout = async () => {
-    let data = {};
-    let error;
+interface responseData {
+  status: number,
+  success: boolean
+}
 
-    const url = `https://cloud.shannews.local/cgi-bin/filemanager/wfm2Logout.cgi`;
+interface responseError {
+  code: string,
+  message: string
+}
 
-    await axios.get(url).then((response) => {
-        data = JSON.stringify(response.data);
-    }).catch((err) => {
-        error = err;
-    });
+interface response {
+  data: responseData,
+  error: responseError
+}
 
-    return {data, error}
+const logout = async (): Promise<response> => {
+  const url = `https://cloud.shannews.local/cgi-bin/filemanager/wfm2Logout.cgi`;
+
+  let data = <responseData>{};
+  let error = <responseError>{};
+
+
+  try {
+    const response = await axios.post(url);
+    data = response?.data
+  } catch (err) {
+    error = err as responseError
+  }
+
+  return { data, error }
 }
 
 export default logout;
