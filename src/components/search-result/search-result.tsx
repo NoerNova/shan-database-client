@@ -6,7 +6,7 @@ import {
   noSearchResult,
 } from "recoil-state/state";
 
-import useToken from "utils/useToken";
+import { useAuth } from "hooks/useAuth";
 
 import { Loader, Pagination } from "@mantine/core";
 import { indexPropsType } from "../search-box/searchIndex";
@@ -37,11 +37,7 @@ const DisplaySearchResult: React.FC = () => {
   const defaultImageLogo =
     "https://shannews.org/wp-content/uploads/2021/05/Shan-Logo-used-2018-1_Optimize.png";
 
-  const { token } = useToken();
-
-  const openClickFIle = (path: string) => {
-    window.open(path)
-  }
+  const { token } = useAuth();
 
   useMemo(() => {
     setCurrentPage(1)
