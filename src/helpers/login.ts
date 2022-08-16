@@ -31,12 +31,16 @@ interface response {
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
   const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
+  const mockURL = `/login`
 
   let data = <responseData>{};
   let error = <responseError>{};
 
   try {
-    const response = await axios.post(url);
+    const response = await axios.post(mockURL, {
+      username: username,
+      password: pwd
+    });
     data = response?.data
   } catch (err) {
     error = err as responseError

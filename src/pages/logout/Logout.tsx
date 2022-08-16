@@ -2,34 +2,31 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import shanlogo from "assets/images/SHAN Logo 2020.png";
+import { useAuth } from "hooks/useAuth";
 
 export default function Logout() {
 
-  const [counter, setCounter] = useState(5);
-  let navigate = useNavigate();
+  const [counter, setCounter] = useState(1);
+
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
-    countToRedirect();
-  }, [])
-
-  const countToRedirect = () => {
     let timer = setInterval(() => {
-      let newCount = counter - 1;
-      newCount >= 0 ? setCounter(newCount) : setCounter(0)
+      setCounter((prev) => prev - 1)
     }, 1000);
 
-    if (counter === 0) {
-      navigateToLogin(timer)
+    counter <= 0 && navigateToLogin()
+
+    return () => {
+      clearInterval(timer);
     }
+  }, [counter])
 
-  }
-
-  const navigateToLogin = (timer: number) => {
-    if (timer) {
-      clearInterval(timer)
-    }
-
+  const navigateToLogin = () => {
     navigate("/login", { replace: true })
+    logout();
+
   }
 
   return (

@@ -1,24 +1,19 @@
 import React, { useState } from "react";
 import "./Login.scss";
 
-import shanlogo from "../../assets/images/SHAN Logo 2020.png";
+import shanlogo from "assets/images/SHAN Logo 2020.png";
 import { Lock } from "tabler-icons-react";
 
-import login from "../../helpers/login";
+import login from "helpers/login";
+import { useAuth } from "hooks/useAuth";
 
-interface userTokenProps {
-  token: string;
-}
-
-interface setTokenProps {
-  (userToken: userTokenProps): void;
-}
-
-export default function Login({ setToken }: { setToken: setTokenProps }) {
+const Login = () => {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("something wrong, try again later.")
+
+  const { authUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,15 +29,14 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
       return setError(true);
     }
 
-    const token: userTokenProps = { token: loginRes.data.sid };
-    setToken(token);
+    authUser(loginRes.data.sid);
   };
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div className="flex h-screen justify-center items-center">
         <div className="max-w-md space-y-8 w-full px-3">
-          <img className="mx-auto h-40 w-auto" src={shanlogo} alt="Workflow" />
+          <img className="mx-auto h-40 w-auto" src={shanlogo} alt="SHAN's logo" />
           <h2 className="mt-6 text-center text-3xl font-extrabold">
             SHAN Cloud
           </h2>
@@ -124,3 +118,5 @@ export default function Login({ setToken }: { setToken: setTokenProps }) {
     </div>
   );
 }
+
+export default Login;

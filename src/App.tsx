@@ -6,49 +6,44 @@ import {
   ColorSchemeProvider,
   ColorScheme,
 } from "@mantine/core";
-
 import { Home, Login, Logout } from "./pages";
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-import useToken from "./utils/useToken";
-
+import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import { ProtectedRoute } from "routes/ProtectedRoute";
+import { AuthProvider } from "hooks/useAuth";
 
 function App() {
   const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
-  const { token, setToken } = useToken();
-
-  if (!token) {
-    return <Login setToken={setToken} />;
-  }
-
   return (
-    <RecoilRoot>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          theme={{ colorScheme }}
-          withGlobalStyles
-          withNormalizeCSS
+    <AuthProvider>
+      <RecoilRoot>
+        <ColorSchemeProvider
+          colorScheme={colorScheme}
+          toggleColorScheme={toggleColorScheme}
         >
-          <BrowserRouter>
-            <div className="App">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login setToken={setToken} />} />
-                <Route path="/logout" element={<Logout />} />
-              </Routes>
-            </div>
-          </BrowserRouter>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </RecoilRoot>
+          <MantineProvider
+            theme={{ colorScheme }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <Routes>
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              } />
+              <Route path="/login" element={
+                <Login />
+              } />
+              <Route path="/logout" element={<Logout />} />
+            </Routes>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </RecoilRoot>
+    </AuthProvider>
   );
 }
 

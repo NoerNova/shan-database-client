@@ -39,6 +39,10 @@ const DisplaySearchResult: React.FC = () => {
 
   const { token } = useToken();
 
+  const openClickFIle = (path: string) => {
+    window.open(path)
+  }
+
   useMemo(() => {
     setCurrentPage(1)
   }, [resultList])
@@ -64,7 +68,7 @@ const DisplaySearchResult: React.FC = () => {
             <ul className="ul-container">
               {currentList.map(
                 ({ id, name, type, path, create_time, modifiled_time }) => (
-                  <a key={id} href="#" className="text-inherit hover:text-inherit">
+                  <a key={id} href={getImageThumbnail(type, path, token)} target="blank" className="text-inherit hover:text-inherit">
                     <Suspense fallback={<div>Loading...</div>}>
                       <li className="li-container">
                         <div className="list-content-container">
