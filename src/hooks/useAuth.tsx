@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+import kill_server_session from "helpers/logout";
 
 interface Props {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const logout = () => {
     setToken(null);
+    kill_server_session();
     navigate("/login", { replace: true });
   };
 

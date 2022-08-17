@@ -14,15 +14,17 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const [verifiedToken, setVerifiedToken] = useState(false);
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   useMemo(async () => {
     const res = await verifyAuth(token);
 
-    if (typeof (res.data) === 'string') {
+    if (typeof res.data === 'string') {
       setVerifiedToken(true);
       setVerifying(false);
+
+      return;
     }
 
     setVerifiedToken(false);
@@ -38,6 +40,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
           <span>verifing please wait...</span>
         </div>
       </div>
-      : !verifiedToken ? <Navigate to='/login' /> : children
+      : verifiedToken ? children : <Navigate to="/login" replace />
   )
 }
