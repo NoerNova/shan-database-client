@@ -15,15 +15,16 @@ interface response {
   error: responseError
 }
 
-const logout = async (): Promise<response> => {
-  const url = `https://cloud.shannews.local/cgi-bin/filemanager/wfm2Logout.cgi`;
+const LOGOUT_URL = import.meta.env.VITE_LOGOUT_URL;
+
+const kill_server_session = async (): Promise<response> => {
 
   let data = <responseData>{};
   let error = <responseError>{};
 
 
   try {
-    const response = await axios.post(url);
+    const response = await axios.post(LOGOUT_URL);
     data = response?.data
   } catch (err) {
     error = err as responseError
@@ -32,4 +33,4 @@ const logout = async (): Promise<response> => {
   return { data, error }
 }
 
-export default logout;
+export default kill_server_session;

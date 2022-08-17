@@ -24,9 +24,8 @@ export default function Logout() {
   }, [counter])
 
   const navigateToLogin = () => {
-    navigate("/login", { replace: true })
     logout();
-
+    navigate("/login", { replace: true })
   }
 
   return (
