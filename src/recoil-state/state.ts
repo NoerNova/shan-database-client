@@ -21,4 +21,9 @@ const noSearchResult = atom({
   default: false,
 });
 
-export { searchResultState, searchSelector, searchLoading, noSearchResult };
+const isAdmin = atom({
+  key: "isAdmin",
+  default: false
+})
+
+export { searchResultState, searchSelector, searchLoading, noSearchResult, isAdmin };

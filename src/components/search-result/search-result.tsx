@@ -4,6 +4,7 @@ import {
   searchResultState,
   searchLoading,
   noSearchResult,
+  isAdmin
 } from "recoil-state/state";
 
 import { useAuth } from "hooks/useAuth";
@@ -28,6 +29,8 @@ const DisplaySearchResult: React.FC = () => {
   const resultList = useRecoilValue<indexPropsType[]>(searchResultState);
   const loading = useRecoilValue(searchLoading);
   const noresult = useRecoilValue(noSearchResult);
+
+  const admin_access = useRecoilValue(isAdmin);
 
   const listItemsPerPage = 10;
   const totalPage = Math.ceil(resultList.length / listItemsPerPage);
@@ -93,7 +96,7 @@ const DisplaySearchResult: React.FC = () => {
                           </div>
                           <div className="dots-verticle-container">
                             <Menu as="div" className="relative">
-                              <div>
+                              <div className={admin_access ? 'visible' : 'invisible'}>
                                 <Menu.Button className="dots-verticle">
                                   <span className="sr-only">Open edit menu</span>
                                   <DotsVertical

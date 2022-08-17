@@ -6,6 +6,8 @@ import { Lock } from "tabler-icons-react";
 
 import login from "helpers/login";
 import { useAuth } from "hooks/useAuth";
+import { useRecoilState } from "recoil";
+import { isAdmin } from "recoil-state/state";
 
 const Login = () => {
   const [username, setUserName] = useState<string>("");
@@ -14,6 +16,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>("something wrong, try again later.")
 
   const { authUser } = useAuth();
+  const [admin, setAdmin] = useRecoilState(isAdmin);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,6 +32,7 @@ const Login = () => {
       return setError(true);
     }
 
+    loginRes.data.admingroup === 1 ? setAdmin(true) : setAdmin(false)
     authUser(loginRes.data.sid);
   };
 
