@@ -37,10 +37,7 @@ const login = async ({ username, password }: token): Promise<response> => {
   let error = <responseError>{};
 
   try {
-    const response = await axios.post(mockURL, {
-      username: username,
-      password: pwd
-    });
+    const response = await axios.post(url);
     data = response?.data
   } catch (err) {
     error = err as responseError
