@@ -4,7 +4,7 @@ import "./search-box.scss";
 import { Chip } from "@mantine/core";
 import { useStyles } from "./search-box.styled";
 
-import { searchIndex } from "./searchIndex";
+import { indexPropsType, searchIndex } from "./searchIndex";
 import { useRecoilState } from "recoil";
 import {
   searchResultState,
@@ -19,7 +19,8 @@ export default function SearchBox() {
   const [selector, setSelector] = useRecoilState(searchSelector);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [resultList, setResultList] = useRecoilState(searchResultState);
+  const [searchResult, setSearchResult] = useState<indexPropsType[]>([]);
+  const [filteredResult, setFilteredResult] = useRecoilState(searchResultState);
   const [noresult, setNoResult] = useRecoilState(noSearchResult);
 
   const [loading, setLoading] = useRecoilState(searchLoading);
@@ -63,20 +64,41 @@ export default function SearchBox() {
     const value = (e.target as HTMLInputElement).value;
     setLoading(true);
     setNoResult(false);
-    setResultList([]);
+    setFilteredResult([]);
     setSearchTerm(value);
   };
 
   const handleSearchButton = () => {
     setLoading(true);
-    setResultList([]);
+    setFilteredResult([]);
     setNoResult(false);
     triggerSearch();
   };
 
+  const filteredSearch = (dataList: indexPropsType[]) => {
+
+    if (selector.includes("All")) {
+      setFilteredResult(dataList.slice(0, 500));
+    } else {
+      const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
+      const searchFiltered = dataList.filter((d) =>
+        suffixFilter.includes(d.type)
+      );
+
+      setFilteredResult(searchFiltered.slice(0, 500));
+    }
+
+    setLoading(false);
+  }  
+
+  useEffect(() => {
+  filteredSearch(searchResult);
+  }, [selector, searchResult])
+
+
   const triggerSearch = async () => {
     if (!searchTerm) {
-      setResultList([]);
+      setFilteredResult([]);
       setLoading(false);
       return;
     }
@@ -86,23 +108,10 @@ export default function SearchBox() {
     if (search.length == 0) {
       setNoResult(true);
       setLoading(false);
-      return;
+      return null;
     }
 
-    let resultList = [];
-
-    if (selector.includes("All")) {
-      resultList = search;
-    } else {
-      const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
-      const searchFiltered = search.filter((d) =>
-        suffixFilter.includes(d.type)
-      );
-
-      resultList = searchFiltered;
-    }
-    setResultList(resultList.slice(0, 500));
-    setLoading(false);
+    setSearchResult(search)
   };
 
   return (
