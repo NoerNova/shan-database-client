@@ -26,7 +26,7 @@ export default function SearchBox() {
   const [loading, setLoading] = useRecoilState(searchLoading);
 
   const changeSelector = (value: string[]) => {
-    if (value.length >= 6 || value.length <= 0) {
+    if (value.length >= Object.entries(suffix).length || value.length <= 0) {
       setSelector(["All"]);
     } else {
       if (value.length >= 2) {
@@ -89,10 +89,10 @@ export default function SearchBox() {
     }
 
     setLoading(false);
-  }  
+  }
 
   useEffect(() => {
-  filteredSearch(searchResult);
+    filteredSearch(searchResult);
   }, [selector, searchResult])
 
 
@@ -162,24 +162,13 @@ export default function SearchBox() {
           value={selector}
           onChange={changeSelector}
         >
-          <Chip classNames={classes} value="Audios">
-            Audios
-          </Chip>
-          <Chip classNames={classes} value="Compress">
-            Compress
-          </Chip>
-          <Chip classNames={classes} value="Documents">
-            Documents
-          </Chip>
-          <Chip classNames={classes} value="Fonts">
-            Fonts
-          </Chip>
-          <Chip classNames={classes} value="Images">
-            Images
-          </Chip>
-          <Chip classNames={classes} value="Videos">
-            Videos
-          </Chip>
+          {
+            Object.keys(suffix).map((item, index) => (
+              <Chip key={index} classNames={classes} value={item}>
+                {item}
+              </Chip>
+            ))
+          }
           <Chip classNames={classes} value="All">
             All
           </Chip>
