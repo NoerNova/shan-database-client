@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
 
 import verifyAuth from "helpers/verify_sid";
+import { c_dcrypt } from 'utils/encryption';
+import bcrypt from 'bcrypt';
 
 import { Loader } from '@mantine/core';
 

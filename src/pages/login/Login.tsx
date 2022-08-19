@@ -6,8 +6,10 @@ import { Lock } from "tabler-icons-react";
 
 import login from "helpers/login";
 import { useAuth } from "hooks/useAuth";
-import { useRecoilState } from "recoil";
-import { isAdmin } from "recoil-state/state";
+import { userTypes } from "./userTypes";
+
+import bcrypt from 'bcrypt';
+import { c_encrypt } from "utils/encryption";
 
 const Login = () => {
   const [username, setUserName] = useState<string>("");
@@ -16,7 +18,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>("something wrong, try again later.")
 
   const { authUser } = useAuth();
-  const [admin, setAdmin] = useRecoilState(isAdmin);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,8 +33,17 @@ const Login = () => {
       return setError(true);
     }
 
-    loginRes.data.admingroup === 1 ? setAdmin(true) : setAdmin(false)
-    authUser(loginRes.data.sid);
+    const sidHash = bcrypt.hashSync(loginRes.data.sid, 66);
+
+    const user: userTypes = {
+      username: username,
+      token: loginRes.data.sid,
+      admingroup: loginRes.data.admingroup
+    }
+
+    const userToken = c_encrypt(JSON.stringify(user), sidHash);
+
+    authUser(sidHash, userToken);
   };
 
   return (

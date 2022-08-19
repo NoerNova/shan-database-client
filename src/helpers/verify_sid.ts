@@ -3,8 +3,6 @@ import axios from "axios";
 const LOGO_IMAGE_PATH = import.meta.env.VITE_IMAGE_SHAN_LOGO;
 const GET_THUMB = import.meta.env.VITE_IMAGE_THUMBNAIL_URL;
 
-
-
 interface responseData {
   data: string | { status: number };
 }
