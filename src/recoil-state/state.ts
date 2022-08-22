@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { indexPropsType } from "components/search-box/searchIndex";
+import { userTypes } from 'types/userTypes';
 
 const searchResultState = atom<indexPropsType | any>({
   key: "searchResultState",
@@ -21,4 +22,9 @@ const noSearchResult = atom({
   default: false,
 });
 
-export { searchResultState, searchSelector, searchLoading, noSearchResult };
+const userState = atom<userTypes | any>({
+  key: "users",
+  default: null,
+})
+
+export { searchResultState, searchSelector, searchLoading, noSearchResult, userState };

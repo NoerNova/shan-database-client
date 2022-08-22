@@ -9,12 +9,14 @@ interface Props {
 
 type Context = {
   token: string | null,
+  credential: string | null,
   user: string | null,
-  authUser: (token: string, user: string) => void,
+  authUser: (token: string, credential: string, user: string) => void,
   logout: () => void
 }
 export const AuthContext = createContext<Context>({
   token: null,
+  credential: null,
   user: null,
   authUser: () => { },
   logout: () => { }
@@ -22,18 +24,21 @@ export const AuthContext = createContext<Context>({
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [token, setToken] = useSessionStorage("token", null);
+  const [credential, setCredential] = useSessionStorage("credential", null);
   const [user, setUser] = useSessionStorage("user", null)
 
   const navigate = useNavigate();
 
-  const authUser = async (token: string, user: string) => {
+  const authUser = async (token: string, credential: string, user: string) => {
     setToken(token);
+    setCredential(credential);
     setUser(user);
     navigate("/");
   };
 
   const logout = () => {
     setToken(null);
+    setCredential(null);
     setUser(null);
     kill_server_session();
     navigate("/login", { replace: true });
@@ -41,11 +46,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const value = useMemo(() => ({
     token,
+    credential,
     user,
     authUser,
     logout
   }),
-    [token, user]
+    [token, credential, user]
   );
 
   return <AuthContext.Provider value={value}> {children} </AuthContext.Provider>

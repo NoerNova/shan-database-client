@@ -25,7 +25,7 @@ const verifyAuth = async (sid: string): Promise<response> => {
   let error = <responseError>{};
 
   try {
-    const response = await axios.get(mock_url);
+    const response = await axios.get(url);
     data = response?.data
   } catch (err) {
     error = err as responseError

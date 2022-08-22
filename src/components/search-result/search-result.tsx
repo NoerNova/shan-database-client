@@ -4,10 +4,8 @@ import {
   searchResultState,
   searchLoading,
   noSearchResult,
-  isAdmin
+  userState
 } from "recoil-state/state";
-
-import { useAuth } from "hooks/useAuth";
 
 import { Loader, Pagination } from "@mantine/core";
 import { indexPropsType } from "../search-box/searchIndex";
@@ -20,6 +18,7 @@ import { DotsVertical } from 'tabler-icons-react'
 import getImageThumbnail from 'helpers/ImageThumbnail'
 
 import { Menu, Transition } from '@headlessui/react'
+import { userTypes } from 'types/userTypes';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -29,8 +28,8 @@ const DisplaySearchResult: React.FC = () => {
   const resultList = useRecoilValue<indexPropsType[]>(searchResultState);
   const loading = useRecoilValue(searchLoading);
   const noresult = useRecoilValue(noSearchResult);
-
-  const admin_access = useRecoilValue(isAdmin);
+  const user = useRecoilValue<userTypes>(userState);
+  const admin_access = user.admingroup;
 
   const listItemsPerPage = 10;
   const totalPage = Math.ceil(resultList.length / listItemsPerPage);
@@ -39,8 +38,6 @@ const DisplaySearchResult: React.FC = () => {
 
   const defaultImageLogo =
     "https://shannews.org/wp-content/uploads/2021/05/Shan-Logo-used-2018-1_Optimize.png";
-
-  const { token } = useAuth();
 
   useMemo(() => {
     setCurrentPage(1)
@@ -51,7 +48,7 @@ const DisplaySearchResult: React.FC = () => {
     let firstItemIndex = lastItemIndex - listItemsPerPage;
     const newPageList = resultList.slice(firstItemIndex, lastItemIndex)
     setCurrentList(newPageList);
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [currentPage, resultList])
 
 
@@ -68,14 +65,14 @@ const DisplaySearchResult: React.FC = () => {
             <ul className="ul-container">
               {currentList.map(
                 ({ id, name, type, path, create_time, modifiled_time }) => (
-                  <a key={id} href={getImageThumbnail(type, path, token!)} target="blank" className="text-inherit hover:text-inherit">
+                  <a key={id} href={getImageThumbnail(type, path, user.sid)} target="blank" className="text-inherit hover:text-inherit">
                     <Suspense fallback={<div>Loading...</div>}>
                       <li className="li-container">
                         <div className="list-content-container">
                           <div className="image-container">
                             <img
                               alt="thumb_nail"
-                              src={getImageThumbnail(type, path, token!)}
+                              src={getImageThumbnail(type, path, user.sid)}
                               onError={(e) => (e.currentTarget.src = defaultImageLogo)}
                               loading='lazy'
                               className="w-40 h-40 object-scale-down flex justify-center items-center" />

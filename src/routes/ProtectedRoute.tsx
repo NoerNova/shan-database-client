@@ -4,27 +4,45 @@ import { useAuth } from "hooks/useAuth";
 
 import verifyAuth from "helpers/verify_sid";
 import { c_dcrypt } from 'utils/encryption';
-import bcrypt from 'bcrypt';
+import bcrypt from "bcryptjs";
+
+import { useRecoilState } from 'recoil';
+import { userState } from "recoil-state/state";
+import { userTypes } from 'types/userTypes';
 
 import { Loader } from '@mantine/core';
 
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
-  const { token } = useAuth();
+  const { token, credential, user } = useAuth();
+
+  if (!token || !credential || !user) {
+    return <Navigate to="/login" replace />;
+  }
 
   const [verifying, setVerifying] = useState(true);
   const [verifiedToken, setVerifiedToken] = useState(false);
 
-  if (!token) {
+  const decrypted_sid = c_dcrypt(credential, import.meta.env.VITE_GENKEY_TOKEN);
+
+  const hash_sid = bcrypt.compareSync(decrypted_sid, token);
+
+  const [user_state, setUserState] = useRecoilState<userTypes>(userState);
+
+  if (!hash_sid) {
     return <Navigate to="/login" replace />;
   }
 
   useMemo(async () => {
-    const res = await verifyAuth(token);
+    const res = await verifyAuth(decrypted_sid);
 
     if (typeof res.data === 'string') {
       setVerifiedToken(true);
       setVerifying(false);
+
+      const decrypted_user = c_dcrypt(user, decrypted_sid);
+
+      setUserState(JSON.parse(decrypted_user))
 
       return;
     }
@@ -32,7 +50,7 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     setVerifiedToken(false);
     setVerifying(false);
 
-  }, [token])
+  }, [token, credential, user])
 
   return (
     verifying ?

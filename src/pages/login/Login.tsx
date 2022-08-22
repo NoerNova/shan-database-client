@@ -6,10 +6,10 @@ import { Lock } from "tabler-icons-react";
 
 import login from "helpers/login";
 import { useAuth } from "hooks/useAuth";
-import { userTypes } from "./userTypes";
+import { userTypes } from "types/userTypes";
 
-import bcrypt from 'bcrypt';
 import { c_encrypt } from "utils/encryption";
+import bcrypt from "bcryptjs";
 
 const Login = () => {
   const [username, setUserName] = useState<string>("");
@@ -33,17 +33,18 @@ const Login = () => {
       return setError(true);
     }
 
-    const sidHash = bcrypt.hashSync(loginRes.data.sid, 66);
+    const encrypted_sid = c_encrypt(loginRes.data.sid, import.meta.env.VITE_GENKEY_TOKEN);
+    const hash_sid = bcrypt.hashSync(loginRes.data.sid, 10);
 
     const user: userTypes = {
       username: username,
-      token: loginRes.data.sid,
+      sid: loginRes.data.sid,
       admingroup: loginRes.data.admingroup
     }
 
-    const userToken = c_encrypt(JSON.stringify(user), sidHash);
+    const userToken = c_encrypt(JSON.stringify(user), loginRes.data.sid);
 
-    authUser(sidHash, userToken);
+    authUser(hash_sid, encrypted_sid, userToken);
   };
 
   return (

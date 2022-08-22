@@ -8,6 +8,10 @@ import { Sun, Moon } from "tabler-icons-react";
 
 import shanlogo from "assets/images/SHAN Logo 2020.png";
 
+import { useRecoilValue } from 'recoil';
+import { userState } from 'recoil-state/state';
+import { userTypes } from "types/userTypes";
+
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Team", href: "#", current: false },
@@ -22,6 +26,8 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
+
+  const user = useRecoilValue<userTypes>(userState);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -108,6 +114,7 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <h4>{user.username}</h4>
                       <Menu.Item>
                         {({ active }: { active: boolean }) => (
                           <a

@@ -5,7 +5,7 @@ import "./index.css";
 
 import { BrowserRouter } from "react-router-dom";
 
-// @ts-ignore
+//@ts-ignore
 import { worker } from "./mocks/browser.js"
 
 if (process.env.NODE_ENV === "development") {
