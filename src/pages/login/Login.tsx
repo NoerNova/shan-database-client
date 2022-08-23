@@ -11,26 +11,34 @@ import { userTypes } from "types/userTypes";
 import { c_encrypt } from "utils/encryption";
 import bcrypt from "bcryptjs";
 
+import { Loader } from '@mantine/core';
+
 const Login = () => {
   const [username, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("something wrong, try again later.")
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { authUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const loginRes = await login({
       username,
       password,
     });
 
     if (loginRes.error.message) {
-      return setError(true);
+      setError(true);
+      setLoading(false);
+      return
     } else if (loginRes.data.authPassed === 0) {
       setErrorMessage('Credential wrong, please check and try again.')
-      return setError(true);
+      setError(true)
+      setLoading(false)
+      return
     }
 
     const encrypted_sid = c_encrypt(loginRes.data.sid, import.meta.env.VITE_GENKEY_TOKEN);
@@ -101,10 +109,12 @@ const Login = () => {
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 hover:border-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <Lock
-                      className="h-5 w-5 text-white-500 group-hover:text-white-400"
-                      aria-hidden="true"
-                    />
+                    {loading ? <Loader className="h-5 w-5" color="white" />
+                      : <Lock
+                        className="h-5 w-5 text-white-500 group-hover:text-white-400"
+                        aria-hidden="true"
+                      />
+                    }
                   </span>
                   Sign in
                 </button>

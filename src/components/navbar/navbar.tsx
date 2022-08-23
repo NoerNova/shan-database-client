@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon, LogoutIcon } from "@heroicons/react/outline";
 
 import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 
@@ -14,9 +14,6 @@ import { userTypes } from "types/userTypes";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -114,7 +111,13 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <h4>{user.username}</h4>
+                      <div className="m-2 border-b-2">
+                        <p className="text-sm opacity-60">Signed in as </p>
+                        <div className="flex flex-row items-center text-center">
+                          <img className="h-8 w-8 rounded-full" src={shanlogo} alt="users" />
+                          <h4 className="m-2 text-lg">{user.username}</h4>
+                        </div>
+                      </div>
                       <Menu.Item>
                         {({ active }: { active: boolean }) => (
                           <a
@@ -153,6 +156,14 @@ export default function Navbar() {
                   {item.name}
                 </Disclosure.Button>
               ))}
+              <Disclosure.Button
+                as="a"
+                href="/logout"
+                className={"flex flex-row text-gray-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"}
+              >
+                <LogoutIcon className="w-6 h-6 mx-2" />
+                <span>Sign out</span>
+              </Disclosure.Button>
             </div>
           </Disclosure.Panel>
         </>

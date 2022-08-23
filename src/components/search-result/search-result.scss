@@ -5,11 +5,11 @@
   items-align: center;
   justify-content: center;
 }
+
 .items-container {
   border-radius: 20px;
   padding: 20px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  width: 780px;
 }
 
 .resultLength {
@@ -17,7 +17,6 @@
 }
 
 .ul-container {
-
 }
 
 .li-container {
@@ -64,3 +63,21 @@
     background-color: rgba(149, 157, 165, 0.2);
   }
 }
+
+@media (max-width: 680px) {
+  .items-container {
+    max-width: 95%;
+    justify-content: center;
+    items-align: center;
+  }
+  .image-container {
+    margin-right: 10px;
+  }
+}
+@media (min-width: 960px) {
+  .items-container {
+    width: 780px;
+  } 
+}
+
+
