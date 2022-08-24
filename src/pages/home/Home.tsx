@@ -1,10 +1,10 @@
-import Navbar from "components/navbar/navbar";
-import SearchBox from "components/search-box/search-box";
-import DisplaySearchResult from "components/search-result/search-result";
+import Navbar from "@components/NabBar/NavBar";
+import SearchBox from "@components/SearchBox/SearchBox";
+import DisplaySearchResult from "@components/DisplaySearchResult/DisplaySearchResult";
 
 function Home() {
   return (
-    <div className="w-screen">
+    <div className="w-screen overflow-hidden">
       <Navbar />
       <SearchBox />
       <DisplaySearchResult />

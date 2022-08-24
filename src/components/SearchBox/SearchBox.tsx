@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import "./search-box.scss";
+import "./searchBox.style.scss";
 import { Chip } from "@mantine/core";
-import { useStyles } from "./search-box.styled";
+import { useStyles } from "./searchBox.style";
 
 import { indexPropsType, searchIndex } from "./searchIndex";
 import { useRecoilState } from "recoil";

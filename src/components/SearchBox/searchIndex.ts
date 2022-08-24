@@ -1,6 +1,6 @@
 import Fuse from "fuse.js";
 import _ from "lodash";
-import indexDB from "@data/filelist_db.json" assert { type: 'JSON' };
+import indexDB from "@data/filelist_db.json";
 
 export interface indexPropsType {
   id: number;
@@ -18,8 +18,15 @@ export interface indexPropsType {
 export const searchIndex = async (
   searchValue: string
 ): Promise<indexPropsType[]> => {
-  const searcher = new Fuse(indexDB, {
-    keys: ["name", "path"],
+  const db: indexPropsType[] = JSON.parse(JSON.stringify(indexDB));
+  const searcher = new Fuse<indexPropsType>(db, {
+    keys: [
+      "path",
+      {
+        name: "name",
+        weight: 2,
+      },
+    ],
     isCaseSensitive: false,
     includeScore: true,
     useExtendedSearch: true,
