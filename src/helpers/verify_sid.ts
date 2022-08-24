@@ -18,7 +18,7 @@ interface response {
 }
 
 const verifyAuth = async (sid: string): Promise<response> => {
-  const url = `${GET_THUMB}&sid=${sid}&path=${LOGO_IMAGE_PATH}`
+  const url = `${GET_THUMB}&sid=${sid}&path=${LOGO_IMAGE_PATH}&timestamp=${new Date().getTime()}`
   const mock_url = "/verify_sid";
 
   let data = <responseData>{};

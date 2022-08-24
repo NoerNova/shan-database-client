@@ -13,11 +13,12 @@ import { dateFormat } from "utils/date";
 import { Suspense } from "react";
 import "./search-result.scss"
 
-import { DotsVertical } from 'tabler-icons-react'
+import { DotsVertical, Trash, Edit, Download, Photo } from 'tabler-icons-react'
 
 import getImageThumbnail from 'helpers/ImageThumbnail'
 
 import { Menu, Transition } from '@headlessui/react'
+import { Button } from '@mantine/core';
 import { userTypes } from 'types/userTypes';
 
 function classNames(...classes: string[]) {
@@ -67,9 +68,9 @@ const DisplaySearchResult: React.FC = () => {
           <ul className="ul-container">
             {currentList.map(
               ({ id, name, type, path, create_time, modifiled_time }) => (
-                <div key={id} onClick={() => handleItemSelected(path)} className="hover:cursor-pointer">
+                <div key={id} className="hover:cursor-pointer">
                   <Suspense fallback={<div>Loading...</div>}>
-                    <li className="li-container">
+                    <li className="li-container" onClick={() => handleItemSelected(path)}>
                       <div className="list-content-container">
                         <div className="image-container">
                           <img
@@ -94,7 +95,7 @@ const DisplaySearchResult: React.FC = () => {
                             <p className="truncate">{dateFormat(modifiled_time.$date)}</p>
                           </div>
                         </div>
-                        <div className="dots-verticle-container z-10">
+                        <div className={`${admin_access ? 'visible' : 'invisible'}`}>
                           <Menu as="div" className="relative">
                             <div className={admin_access ? 'visible' : 'invisible'}>
                               <Menu.Button className="dots-verticle">
@@ -114,20 +115,63 @@ const DisplaySearchResult: React.FC = () => {
                               leaveFrom="transform opacity-100 scale-100"
                               leaveTo="transform opacity-0 scale-95"
                             >
-                              <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <Menu.Item>
-                                  {({ active }: { active: boolean }) => (
-                                    <a
-                                      href="#"
-                                      className={classNames(
-                                        active ? "bg-gray-100" : "",
-                                        "block px-4 py-2 text-sm text-gray-700"
-                                      )}
-                                    >
-                                      Edit
-                                    </a>
-                                  )}
-                                </Menu.Item>
+                              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <div className="px-1 py-1">
+                                  <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                      <Button
+                                        className={classNames(
+                                          active ? "bg-gray-100 text-white" : "text-gray-900",
+                                          "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                                        )}
+                                      >
+                                        <Photo className="mx-2" />
+                                        View
+                                      </Button>
+                                    )}
+                                  </Menu.Item>
+                                  <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                      <Button
+                                        className={classNames(
+                                          active ? "bg-gray-100 text-white" : "text-gray-900",
+                                          "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                                        )}
+                                      >
+                                        <Download className="mx-2" />
+                                        Download
+                                      </Button>
+                                    )}
+                                  </Menu.Item>
+                                </div>
+                                <div className="px-1 py-1">
+                                  <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                      <Button
+                                        className={classNames(
+                                          active ? "bg-gray-100 text-white" : "text-gray-900",
+                                          "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                                        )}
+                                      >
+                                        <Edit className="mx-2" />
+                                        Edit
+                                      </Button>
+                                    )}
+                                  </Menu.Item>
+                                  <Menu.Item>
+                                    {({ active }: { active: boolean }) => (
+                                      <Button
+                                        className={classNames(
+                                          active ? "bg-gray-100 text-white" : "text-gray-900",
+                                          "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                                        )}
+                                      >
+                                        <Trash className="mx-2" />
+                                        Delete
+                                      </Button>
+                                    )}
+                                  </Menu.Item>
+                                </div>
                               </Menu.Items>
                             </Transition>
                           </Menu>

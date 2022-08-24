@@ -49,14 +49,14 @@
   flex-direction: column;
   flex: 2;
   justify-content: center;
-   overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .dots-verticle {
-  z-index: 10;
   border-radius: 100%;
+  border: none;
   padding: 3px;
   margin: 5px;
   &:hover {
