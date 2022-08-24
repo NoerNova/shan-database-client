@@ -9,44 +9,42 @@ interface token {
 }
 
 interface responseData {
-  status: number,
-  sid: string,
-  username: string,
-  admingroup: number,
-  authPassed: number
-
+  status: number;
+  sid: string;
+  username: string;
+  admingroup: number;
+  authPassed: number;
 }
 
 interface responseError {
-  code: string,
-  message: string
-
+  code: string;
+  message: string;
 }
 
 interface response {
-  data: responseData,
-  error: responseError
+  data: responseData;
+  error: responseError;
 }
 
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
   const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
-  const mock_url = "/login"
+  const mock_url = "/login";
 
   let data = <responseData>{};
   let error = <responseError>{};
 
   try {
-   // const response = await axios.post(mock_url, {
-   //   username: username,
-   //   password: pwd
-   // });
-    const response = await axios.post(url)
+    const response = await axios.post(mock_url, {
+      username: username,
+      password: pwd,
+    });
+    // const response = await axios.post(url)
 
-    data = response?.data
+    data = response?.data;
   } catch (err) {
-    console.log(err)
-    error = err as responseError
+    console.log(err);
+    error = err as responseError;
   }
 
   return { data, error };

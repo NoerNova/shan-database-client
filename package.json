@@ -48,5 +48,8 @@
     "typescript": "^4.6.4",
     "vite": "^3.0.0",
     "vite-tsconfig-paths": "^3.5.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
