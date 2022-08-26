@@ -58,11 +58,18 @@ const getDefaultThumbnail = (type: string) => {
   }
 };
 
+export const getImagePath = (path: string) => {
+  const image_path = path.match("^(.*(?=[\\/]))");
+  const image_name_path = path.match("([^/]+[^\n.]+)$");
+
+  return { image_path, image_name_path };
+};
+
 const getThumbnailFromPath = (path: string, sid: string) => {
   const thumbURL = import.meta.env.VITE_IMAGE_THUMBNAIL_URL;
 
-  const image_path = path.match("^(.*(?=[\\/]))");
-  const image_name_path = path.match("([^/]+[^\n.]+)$");
+  const { image_path, image_name_path } = getImagePath(path);
+
   const image_thumbnail_url = `${thumbURL}&sid=${sid}&path=${
     image_path![1]
   }&name=${image_name_path![1]}`;
@@ -70,7 +77,7 @@ const getThumbnailFromPath = (path: string, sid: string) => {
   return image_thumbnail_url;
 };
 
-const getImageThumbnail = (type: string, path: string, sid: string) => {
+export const getImageThumbnail = (type: string, path: string, sid: string) => {
   switch (type.toLowerCase()) {
     case "png":
     case "jpg":
@@ -81,5 +88,3 @@ const getImageThumbnail = (type: string, path: string, sid: string) => {
       return getDefaultThumbnail(type);
   }
 };
-
-export default getImageThumbnail;

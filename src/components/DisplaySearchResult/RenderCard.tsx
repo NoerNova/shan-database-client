@@ -1,13 +1,17 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
 
 import { indexPropsType } from '../SearchBox/searchIndex';
-import getImageThumbnail from 'helpers/ImageThumbnail';
+import { getImageThumbnail } from 'helpers/ImageThumbnail';
 import { userTypes } from 'types/userTypes';
 import { dateFormat } from "utils/date";
 import { Dots, DotsVertical } from 'tabler-icons-react';
 
 import { MenuContext } from "./menuReducer";
 import RenderMenu from "./RenderMenu";
+
+import { useMantineColorScheme } from "@mantine/core";
+
+import { getImagePath } from "@helpers/ImageThumbnail";
 
 interface CardTypes {
     item: indexPropsType,
@@ -16,6 +20,8 @@ interface CardTypes {
 }
 
 const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
+    const { colorScheme } = useMantineColorScheme();
+    const dark = colorScheme === 'dark';
 
     const { state, dispatch } = useContext(MenuContext);
     const [menuOpened, setMenuOpened] = useState(false);
@@ -27,8 +33,15 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
         dispatch({ type: "TOGGLE_MENU", payload: { menuOpenID: id } })
     }
 
-    const handleMenuSelected = (item: string) => {
+    const handleMenuSelected = (menuItem: string) => {
         dispatch({ type: "HANDLE_MENU_ITEM", payload: { selectedMenu: item } })
+
+        const { image_path, image_name_path } = getImagePath(item.path)
+
+        if (menuItem === "View") {
+            let url = `${import.meta.env.VITE_BASE_URL}/${image_name_path?.[0]}?sid=${user.sid}&func=get_viewer&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}`
+            window.open(url, '_blank');
+        }
     }
 
     useEffect(() => {
@@ -57,7 +70,7 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <li className="relative rounded-xl p-5 border-b hover:cursor-pointer hover:bg-gray-200" onClick={() => handleItemSelected(item.path)}>
+            <li className={`relative rounded-xl p-5 border-b hover:cursor-pointer hover:bg-gray-200 ${dark && 'hover:bg-gray-800'}`} onClick={() => handleItemSelected(item.path)}>
                 <div className="grid grid-cols-7 gap-4 rounded-l">
                     <div className="col-span-2 justify-center items-center">
                         <img
@@ -88,13 +101,13 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
                                 size={26}
                                 strokeWidth={2}
                                 onClick={() => toggleMenu(item.id)}
-                                className="hover:bg-gray-200 rounded-full px-1 py-1"
+                                className={`hover:bg-gray-400 ${dark && 'hover:bg-gray-900'} rounded-full px-1 py-1`}
                             />
                             : <DotsVertical
                                 size={26}
                                 strokeWidth={2}
                                 onClick={() => toggleMenu(item.id)}
-                                className="hover:bg-gray-200 rounded-full px-1 py-1"
+                                className={`hover:bg-gray-400 ${dark && 'hover:bg-gray-900'} rounded-full px-1 py-1`}
                             />}
                     </div>
                 </div>

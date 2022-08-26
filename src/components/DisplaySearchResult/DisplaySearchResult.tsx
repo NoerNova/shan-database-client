@@ -17,6 +17,8 @@ import useOutsideClick from "./useOutsideClick";
 
 import { MenuReducer, MenuContext, initialMenuState } from './menuReducer';
 
+import RenderPreview from "./RenderPreview";
+
 const DisplaySearchResult: React.FC = () => {
   const resultList = useRecoilValue<indexPropsType[]>(searchResultState);
   const loading = useRecoilValue(searchLoading);
@@ -86,6 +88,7 @@ const DisplaySearchResult: React.FC = () => {
             </div>
           </div>
         }
+        <RenderPreview />
       </div>
     </MenuContext.Provider>
   );
