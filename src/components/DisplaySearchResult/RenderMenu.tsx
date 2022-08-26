@@ -9,8 +9,8 @@ interface types {
 }
 const RenderMenu = ({ menuOpened, item, handleMenuSelected }: types) => {
     return (
-        <div className="dropdown-menu">
-            <Menu shadow="md" width={200} opened={menuOpened}>
+        <div className="absolute top-12 right-[133px] mt-0 py-0">
+            <Menu withArrow arrowSize={10} shadow="md" width={200} opened={menuOpened}>
                 <Menu.Dropdown>
                     <Menu.Label>{item.name}</Menu.Label>
                     <Menu.Item

@@ -9,7 +9,6 @@ import {
 
 import { Loader, Pagination } from "@mantine/core";
 import { indexPropsType } from "../SearchBox/searchIndex";
-import "./DisplaySearchResult.style.scss"
 
 import { userTypes } from 'types/userTypes';
 
@@ -59,18 +58,18 @@ const DisplaySearchResult: React.FC = () => {
   return (
     <MenuContext.Provider value={{ state, dispatch }}>
       <div
-        className="body-container">
+        className="flex m-10 items-center justify-center">
         {loading && <Loader color="gray" />}
         {!loading && resultList.length <= 0 && noresult && <p>No Result</p>}
         {currentList.length > 0 &&
           <div
             ref={wrapperRef}
-            className="items-container"
+            className="rounded-lg p-10 shadow-2xl"
           >
-            <div className="resultLength">
+            <div className="border-b-2 border-gray-400">
               <p className="font-bold">search result: {resultList.length}</p>
             </div>
-            <ul className="ul-container">
+            <ul>
               {currentList.map(
                 (item, index) => (
                   <RenderCard

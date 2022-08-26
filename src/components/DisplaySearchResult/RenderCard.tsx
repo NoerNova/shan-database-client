@@ -57,9 +57,9 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <li className="li-container" onClick={() => handleItemSelected(item.path)}>
-                <div className="list-content-container">
-                    <div className="image-container">
+            <li className="relative rounded-xl p-5 border-b hover:cursor-pointer hover:bg-gray-200" onClick={() => handleItemSelected(item.path)}>
+                <div className="grid grid-cols-7 gap-4 rounded-l">
+                    <div className="col-span-2 justify-center items-center">
                         <img
                             alt="thumb_nail"
                             src={getImageThumbnail(item.type, item.path, user.sid)}
@@ -67,7 +67,7 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
                             loading='lazy'
                             className="w-40 h-40 object-scale-down flex justify-center items-center" />
                     </div>
-                    <div className="content-container">
+                    <div className="col-span-4 flex flex-col justify-center overflow-hidden whitespace-no-wrap">
                         <div className="font-medium truncate">{item.name}</div>
                         <div className="flex">
                             <p className="font-medium mr-2">type: </p>
@@ -82,7 +82,7 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
                             <p className="truncate">{dateFormat(item.modifiled_time.$date)}</p>
                         </div>
                     </div>
-                    <div className={`${user.admingroup ? 'visible' : 'invisible'}`}>
+                    <div className={`col-span-1 flex justify-end ${user.admingroup ? 'visible' : 'invisible'}`}>
                         {menuOpened
                             ? <Dots
                                 size={26}
@@ -96,9 +96,9 @@ const RenderCard = ({ item, user, handleItemSelected }: CardTypes) => {
                                 onClick={() => toggleMenu(item.id)}
                                 className="hover:bg-gray-200 rounded-full px-1 py-1"
                             />}
-                        <RenderMenu menuOpened={menuOpened} item={item} handleMenuSelected={handleMenuSelected} />
                     </div>
                 </div>
+                <RenderMenu menuOpened={menuOpened} item={item} handleMenuSelected={handleMenuSelected} />
             </li>
         </Suspense>
     )
