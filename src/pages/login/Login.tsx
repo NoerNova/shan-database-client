@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-1">
       <div className="flex h-screen justify-center items-center">
         <div className="max-w-md space-y-8 w-full px-3">
           <img className="mx-auto h-40 w-auto" src={shanlogo} alt="SHAN's logo" />
@@ -134,7 +134,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-full flex justify-center hidden md:block">
+      <div className="w-full h-full flex justify-center block sm:hidden">
         <img
           className="object-fill w-full h-screen"
           src="https://i.pinimg.com/564x/19/6c/aa/196caad2920ab5c375bd44afe2adde39.jpg"
