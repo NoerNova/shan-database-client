@@ -50,6 +50,6 @@ export const MenuReducer = (state: menuTypes, action: actionTypes) => {
 };
 
 export const MenuContext = createContext<{
-  state: menuTypes;
-  dispatch: React.Dispatch<any>;
-}>({ state: initialMenuState, dispatch: () => null });
+  menuState: menuTypes;
+  menuDispatch: React.Dispatch<any>;
+}>({ menuState: initialMenuState, menuDispatch: () => null });
