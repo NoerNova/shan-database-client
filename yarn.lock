@@ -510,6 +510,11 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
+"@pdftron/webviewer@^8.7.0":
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/@pdftron/webviewer/-/webviewer-8.7.0.tgz#747847a565471dd7c3a8b54f3a363d8e11b3e423"
+  integrity sha512-Ji0a6A+2HFNMlTpBmTNO10sgizQnmybqZOkJkanU46CLegn4rRaTMBEmAlXWoUaY0M/bx2Br1FHHeS6MTjhb1w==
+
 "@radix-ui/number@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.0.0.tgz#4c536161d0de750b3f5d55860fc3de46264f897b"
