@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Navigate } from "react-router-dom";
+import { Navigate, useOutlet } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
 
 import verifyAuth from "helpers/verify_sid";
@@ -11,10 +11,12 @@ import { userState } from "recoil-state/state";
 import { userTypes } from 'types/userTypes';
 
 import { Loader } from '@mantine/core';
+import NavBar from '@components/NabBar/NavBar';
 
-export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+export const ProtectedRoute = () => {
 
   const { token, credential, user } = useAuth();
+  const outlet = useOutlet();
 
   if (!token || !credential || !user) {
     return <Navigate to="/login" replace />;
@@ -52,14 +54,27 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
   }, [token, credential, user])
 
-  return (
-    verifying ?
-      <div className="grid content-center w-screen h-screen justify-center">
-        <div className="flex justify-center items-center flex-col">
-          <Loader />
-          <span>verifing please wait...</span>
-        </div>
+  const RenderLoading = () => (
+    <div className="grid content-center w-screen h-screen justify-center">
+      <div className="flex justify-center items-center flex-col">
+        <Loader />
+        <span>verifing please wait...</span>
       </div>
-      : verifiedToken ? children : <Navigate to="/login" replace />
+    </div>
+  )
+
+  return (
+    <div>
+      <NavBar />
+      {
+        verifying ?
+          <RenderLoading />
+          : verifiedToken ?
+            <div>
+              {outlet}
+            </div>
+            : <Navigate to="/login" replace />
+      }
+    </div>
   )
 }

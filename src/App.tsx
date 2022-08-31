@@ -6,7 +6,8 @@ import {
   ColorSchemeProvider,
   ColorScheme,
 } from "@mantine/core";
-import { Home, Login, Logout } from "./pages";
+import Navbar from "@components/NabBar/NavBar";
+import { ContactList, Home, Login, Logout, StaffList } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { ProtectedRoute } from "routes/ProtectedRoute";
@@ -30,15 +31,16 @@ function App() {
             withNormalizeCSS
           >
             <Routes>
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              } />
-              <Route path="/login" element={
-                <Login />
-              } />
-              <Route path="/logout" element={<Logout />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/contact-list" element={<ContactList />} />
+                <Route path="/staff-list" element={<StaffList />} />
+              </Route>
+
+              <Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
+              </Route>
             </Routes>
           </MantineProvider>
         </ColorSchemeProvider>

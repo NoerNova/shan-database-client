@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon, LogoutIcon } from "@heroicons/react/outline";
-
-import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { ActionIcon, useMantineColorScheme, Button } from "@mantine/core";
 
 import { Sun, Moon } from "tabler-icons-react";
 
@@ -13,18 +13,20 @@ import { userState } from 'recoil-state/state';
 import { userTypes } from "types/userTypes";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
+  { name: "Database Search", path: "/", current: true },
+  { name: "Contect List", path: "/contact-list", current: false },
+  { name: "Staff List", path: "/staff-list", current: false },
 ];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function NavBar() {
+const NavBar = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === "dark";
-
   const user = useRecoilValue<userTypes>(userState);
+  const navigate = useNavigate();
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -34,7 +36,7 @@ export default function NavBar() {
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute left-0 flex items-center hidden sm:block">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button style={{ border: "none" }} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-0">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -59,19 +61,25 @@ export default function NavBar() {
                 <div className="sm:hidden block ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Button
                         key={item.name}
-                        href={item.href}
+                        onClick={() => navigate(item.path)}
+                        variant="white"
                         className={classNames(
                           item.current
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                            ? "bg-gray-900 text-white "
+                            : "text-gray-300 hover:bg-gray-700",
+                          "px-3 py-2 rounded-md text-sm font-medium hover:text-white"
                         )}
+                        styles={() => ({
+                          root: {
+                            border: "none"
+                          }
+                        })}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -80,7 +88,7 @@ export default function NavBar() {
                 <ActionIcon
                   className="darkmode-toggle-icon"
                   color={dark ? "yellow" : "blue"}
-                  style={{ padding: 3 }}
+                  style={{ padding: 3, border: "none" }}
                   variant="outline"
                   radius={6}
                   onClick={() => toggleColorScheme()}
@@ -92,12 +100,12 @@ export default function NavBar() {
                 {/* Profile dropdown */}
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <Menu.Button className="flex text-sm rounded-full">
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
                         src={shanlogo}
-                        alt=""
+                        alt={user.username}
                       />
                     </Menu.Button>
                   </div>
@@ -115,20 +123,26 @@ export default function NavBar() {
                         <p className="text-sm opacity-60">Signed in as </p>
                         <div className="flex flex-row items-center text-center">
                           <img className="h-8 w-8 rounded-full" src={shanlogo} alt="users" />
-                          <h4 className="m-2 text-lg">{user.username}</h4>
+                          {user && <h4 className="m-2 text-lg">{user.username}</h4>}
                         </div>
                       </div>
                       <Menu.Item>
                         {({ active }: { active: boolean }) => (
-                          <a
-                            href="/logout"
+                          <Button
+                            onClick={() => navigate("/logout")}
+                            variant="white"
+                            styles={() => ({
+                              root: {
+                                border: "none"
+                              }
+                            })}
                             className={classNames(
                               active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              "flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-300"
                             )}
                           >
                             Sign out
-                          </a>
+                          </Button>
                         )}
                       </Menu.Item>
                     </Menu.Items>
@@ -143,23 +157,23 @@ export default function NavBar() {
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
-                  as="a"
-                  href={item.href}
+                  onClick={() => navigate(item.path)}
                   className={classNames(
                     item.current
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
+                    "flex w-full px-3 py-2 rounded-md text-base font-medium"
                   )}
+                  style={{ border: "none" }}
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
               ))}
               <Disclosure.Button
-                as="a"
-                href="/logout"
-                className={"flex flex-row text-gray-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"}
+                onClick={() => navigate("/logout")}
+                className={"flex flex-row w-full text-gray-400 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"}
+                style={{ border: "none" }}
               >
                 <LogoutIcon className="w-6 h-6 mx-2" />
                 <span>Sign out</span>
@@ -171,3 +185,5 @@ export default function NavBar() {
     </Disclosure>
   );
 }
+
+export default NavBar;
