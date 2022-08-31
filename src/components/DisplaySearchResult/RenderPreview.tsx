@@ -1,6 +1,6 @@
-import { useContext, Suspense, useState } from 'react';
+import { useContext, Suspense, useState, useEffect } from 'react';
 import { Modal, Image, Loader, Button } from '@mantine/core';
-import { ViewportWide } from 'tabler-icons-react';
+import { ViewportWide, Download } from 'tabler-icons-react';
 
 import { ModalPreviewContext } from "./modalReducer";
 
@@ -15,12 +15,42 @@ const RenderPreview = () => {
 
   const [mouseHover, setMouseHover] = useState(false);
   const [imageViewer, setImageViewer] = useState(false);
+  const [supportView, setSupportView] = useState(false);
+
+  const image_suffix_supported = ["jpg", "png", "gif", "svg", "bmp", "ico"];
 
   const { item, user } = modalState;
 
   const handleCloseModal = () => {
     modalDispatch({ type: "CLOSE_MODAL" });
   }
+
+  const { image_path, image_name_path } = getImagePath(item.path);
+
+  const handleDownload = () => {
+    const downloadURL = `${import.meta.env.VITE_DOWNLOAD_URL}&sid=${user.sid}&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}&source_total=1`
+
+    return downloadURL;
+  }
+
+  const handleViewer = () => {
+
+    let viewerURL = `${import.meta.env.VITE_BASE_URL}/${image_name_path?.[0]}?sid=${user.sid}&func=get_viewer&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}`
+
+    if (item.type === 'pdf') {
+      window.open(viewerURL, '_blank');
+    } else if (image_suffix_supported.includes(item.type)) {
+      setImageViewer(true)
+    }
+  }
+
+  useEffect(() => {
+    if (item.type === 'pdf' || image_suffix_supported.includes(item.type)) {
+      return setSupportView(true)
+    }
+
+    return setSupportView(false)
+  }, [item.type])
 
   return (
     <Modal
@@ -34,18 +64,51 @@ const RenderPreview = () => {
       transitionDuration={600}
       transitionTimingFunction="ease"
     >
-      <Suspense fallback={<div>Loading...</div>}>
-        <div className="grid grid-cols-4 gap-12">
+      <Suspense fallback={<Loader />}>
+        <div className="grid grid-cols-4 gap-12 sm:grid-cols-1 sm:gap-2">
           <div
             onMouseOver={() => setMouseHover(true)}
             onMouseLeave={() => { setMouseHover(false) }}
             className="relative flex col-span-2 justify-center align-center items-center">
-            <div className={`flex justify-center items-center ${mouseHover ? "opacity-80" : "opacity-100"}`}>
+            <div className={`flex justify-center items-center h-[500px] sm:h-[200px]`}>
               <FilesViewer item={item} sid={user.sid} />
             </div>
-            <div className={`absolute bg-gray-200/[.5] rounded-full ${mouseHover ? "visible" : "invisible"}`}>
-              <Button onClick={() => setImageViewer(true)} leftIcon={<ViewportWide />} variant="default" radius="xl" color="dark">
+            <div className={`absolute bottom-0 left-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
+              <Button
+                onClick={() => handleViewer()}
+                leftIcon={<ViewportWide />}
+                variant="default"
+                radius="xl"
+                color="dark"
+                styles={() => ({
+                  root: {
+                    '&:hover': {
+                      borderColor: 'white',
+                    },
+                  }
+                })}
+              >
                 View
+              </Button>
+            </div>
+            <div className={`absolute bottom-0 right-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
+              <Button
+                component="a"
+                href={handleDownload()}
+                target="_blank"
+                leftIcon={<Download />}
+                variant="default"
+                radius="xl"
+                color="dark"
+                styles={() => ({
+                  root: {
+                    '&:hover': {
+                      borderColor: 'white',
+                    },
+                  }
+                })}
+              >
+                Download
               </Button>
             </div>
           </div>
@@ -79,15 +142,7 @@ const RenderPreview = () => {
             transitionDuration={600}
             transitionTimingFunction="ease"
           >
-            <Image
-              alt={item.name}
-              radius="md"
-              src={getImageThumbnail(item.type, item.path, user.sid, 640)}
-              withPlaceholder
-              placeholder={
-                <Loader />
-              }
-            />
+            <FilesViewer item={item} sid={user.sid} />
           </Modal>
         </div>
       </Suspense>

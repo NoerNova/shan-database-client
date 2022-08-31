@@ -16,7 +16,6 @@
     "@mantine/dates": "^5.0.0",
     "@mantine/hooks": "^5.0.0",
     "@mantine/modals": "^5.0.0",
-    "@pdftron/webviewer": "^8.7.0",
     "@types/lodash": "^4.14.182",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
