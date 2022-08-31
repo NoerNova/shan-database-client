@@ -35,6 +35,7 @@ const RenderMenu = ({ menuOpened, item, handleMenuSelected }: types) => {
                     <Menu.Label>Danger zone</Menu.Label>
                     <Menu.Item
                         component='button'
+                        disabled
                         onClick={() =>
                             handleMenuSelected("Edit")}
                         icon={<Edit size={14} />}
@@ -43,6 +44,7 @@ const RenderMenu = ({ menuOpened, item, handleMenuSelected }: types) => {
                     </Menu.Item>
                     <Menu.Item
                         component='button'
+                        disabled
                         onClick={() =>
                             handleMenuSelected("Delete")}
                         color="red"

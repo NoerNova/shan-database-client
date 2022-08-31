@@ -13,7 +13,7 @@ import { ModalPreviewContext } from './modalReducer';
 
 import { useMantineColorScheme } from "@mantine/core";
 
-import { getImagePath } from "@helpers/ImageThumbnail";
+import { handleDownload } from "@helpers/handleMenuFunction"
 
 interface CardTypes {
   item: indexPropsType,
@@ -36,19 +36,23 @@ const RenderCard = ({ item, user }: CardTypes) => {
     menuDispatch({ type: "TOGGLE_MENU", payload: { menuOpenID: id } })
   }
 
-  const handleMenuSelected = (menuItem: string) => {
-    menuDispatch({ type: "HANDLE_MENU_ITEM", payload: { selectedMenu: item } })
-
-    const { image_path, image_name_path } = getImagePath(item.path)
-
-    if (menuItem === "View") {
-      let url = `${import.meta.env.VITE_BASE_URL}/${image_name_path?.[0]}?sid=${user.sid}&func=get_viewer&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}`
-      window.open(url, '_blank');
-    }
-  }
-
   const handleItemSelected = () => {
     modalDispatch({ type: "OPEN_MODAL", payload: { item: item, user: user } });
+  }
+
+  const handleMenuSelected = (menuItem: string) => {
+    menuDispatch({ type: "HANDLE_MENU_ITEM", payload: { selectedMenu: menuItem } })
+
+    switch (menuItem) {
+      case "View":
+        handleItemSelected();
+        break;
+      case "Download":
+        handleDownload({ sid: user.sid, path: item.path });
+        break;
+      default:
+        return
+    }
   }
 
   useEffect(() => {
@@ -77,29 +81,31 @@ const RenderCard = ({ item, user }: CardTypes) => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <li className={`relative rounded-xl p-5 sm:pt-5 sm:p-0 border-b hover:cursor-pointer hover:bg-gray-200 ${dark && 'hover:bg-gray-800'}`} onClick={() => handleItemSelected()}>
+      <li className={`relative rounded-xl p-5 sm:pt-5 sm:p-0 border-b hover:cursor-pointer hover:bg-gray-200 ${dark && 'hover:bg-gray-800'}`}>
         <div className="grid grid-cols-7 gap-4 rounded-l sm:grid-cols-1">
-          <div className="w-40 h-40 col-span-2 justify-center items-center rounded-xl sm:flex sm:items-center sm:w-full">
-            <img
-              alt="thumb_nail"
-              src={getImageThumbnail(item.type, item.path, user.sid)}
-              onError={(e) => (e.currentTarget.src = defaultImageLogo)}
-              loading='lazy'
-              className="object-cover h-full rounded-xl" />
-          </div>
-          <div className="col-span-4 flex flex-col justify-center overflow-hidden whitespace-no-wrap">
-            <div className="font-medium truncate max-w-sm">{item.name}</div>
-            <div className="flex">
-              <p className="font-medium mr-2">type: </p>
-              <p>{item.type}</p>
+          <div className="col-span-6 grid grid-cols-6" onClick={() => handleItemSelected()}>
+            <div className="w-40 h-40 col-span-2 justify-center items-center rounded-xl sm:flex sm:items-center sm:w-full">
+              <img
+                alt="thumb_nail"
+                src={getImageThumbnail(item.type, item.path, user.sid)}
+                onError={(e) => (e.currentTarget.src = defaultImageLogo)}
+                loading='lazy'
+                className="object-cover h-full rounded-xl" />
             </div>
-            <div className="flex">
-              <p className="font-medium mr-2">create date: </p>
-              <p className="truncate">{dateFormat(item.create_time.$date)}</p>
-            </div>
-            <div className="flex">
-              <p className="font-medium mr-2">modifiled date: </p>
-              <p className="truncate">{dateFormat(item.modifiled_time.$date)}</p>
+            <div className="col-span-4 flex flex-col justify-center overflow-hidden whitespace-no-wrap">
+              <div className="font-medium truncate max-w-sm">{item.name}</div>
+              <div className="flex">
+                <p className="font-medium mr-2">type: </p>
+                <p>{item.type}</p>
+              </div>
+              <div className="flex">
+                <p className="font-medium mr-2">create date: </p>
+                <p className="truncate">{dateFormat(item.create_time.$date)}</p>
+              </div>
+              <div className="flex">
+                <p className="font-medium mr-2">modifiled date: </p>
+                <p className="truncate">{dateFormat(item.modifiled_time.$date)}</p>
+              </div>
             </div>
           </div>
           <div className={`col-span-1 flex justify-end sm:hidden ${user.admingroup ? 'visible' : 'invisible'}`}>

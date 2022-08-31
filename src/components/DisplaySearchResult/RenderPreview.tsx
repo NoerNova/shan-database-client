@@ -1,11 +1,12 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
-import { Modal, Image, Loader, Button } from '@mantine/core';
+import { Modal, Loader, Button } from '@mantine/core';
 import { ViewportWide, Download } from 'tabler-icons-react';
 
 import { ModalPreviewContext } from "./modalReducer";
 
-import { getImageThumbnail, getImagePath } from "@helpers/ImageThumbnail";
 import { dateFormat } from "utils/date";
+
+import { handleDownload, handleViewer } from '@helpers/handleMenuFunction';
 
 import FilesViewer from '@helpers/FilesViewer';
 
@@ -23,25 +24,6 @@ const RenderPreview = () => {
 
   const handleCloseModal = () => {
     modalDispatch({ type: "CLOSE_MODAL" });
-  }
-
-  const { image_path, image_name_path } = getImagePath(item.path);
-
-  const handleDownload = () => {
-    const downloadURL = `${import.meta.env.VITE_DOWNLOAD_URL}&sid=${user.sid}&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}&source_total=1`
-
-    return downloadURL;
-  }
-
-  const handleViewer = () => {
-
-    let viewerURL = `${import.meta.env.VITE_BASE_URL}/${image_name_path?.[0]}?sid=${user.sid}&func=get_viewer&source_path=${image_path?.[0]}&source_file=${image_name_path?.[0]}`
-
-    if (item.type === 'pdf') {
-      window.open(viewerURL, '_blank');
-    } else if (image_suffix_supported.includes(item.type)) {
-      setImageViewer(true)
-    }
   }
 
   useEffect(() => {
@@ -75,7 +57,9 @@ const RenderPreview = () => {
             </div>
             <div className={`absolute bottom-0 left-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
               <Button
-                onClick={() => handleViewer()}
+                onClick={() => handleViewer({
+                  sid: user.sid, type: item.type, path: item.path, setImageViewer: setImageViewer
+                })}
                 leftIcon={<ViewportWide />}
                 variant="default"
                 radius="xl"
@@ -93,9 +77,7 @@ const RenderPreview = () => {
             </div>
             <div className={`absolute bottom-0 right-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
               <Button
-                component="a"
-                href={handleDownload()}
-                target="_blank"
+                onClick={() => handleDownload({ sid: user.sid, path: item.path })}
                 leftIcon={<Download />}
                 variant="default"
                 radius="xl"
@@ -133,11 +115,10 @@ const RenderPreview = () => {
         <div className="absolute">
           <Modal
             opened={imageViewer}
+            title={<p className="font-bold text-l">{item.name}</p>}
             onClose={() => setImageViewer(false)}
             centered
             size="70%"
-            overflow="outside"
-            lockScroll
             transition="fade"
             transitionDuration={600}
             transitionTimingFunction="ease"
