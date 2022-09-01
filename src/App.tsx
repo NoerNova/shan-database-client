@@ -6,7 +6,6 @@ import {
   ColorSchemeProvider,
   ColorScheme,
 } from "@mantine/core";
-import Navbar from "@components/NabBar/NavBar";
 import { ContactList, Home, Login, Logout, StaffList } from "./pages";
 import { Route, Routes } from "react-router-dom";
 import { RecoilRoot } from "recoil";

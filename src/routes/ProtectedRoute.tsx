@@ -64,17 +64,13 @@ export const ProtectedRoute = () => {
   )
 
   return (
-    <div>
-      <NavBar />
-      {
-        verifying ?
-          <RenderLoading />
-          : verifiedToken ?
-            <div>
-              {outlet}
-            </div>
-            : <Navigate to="/login" replace />
-      }
-    </div>
+    verifying ?
+      <RenderLoading />
+      : verifiedToken ?
+        <div>
+          <NavBar />
+          {outlet}
+        </div>
+        : <Navigate to="/login" replace />
   )
 }
