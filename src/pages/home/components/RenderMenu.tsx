@@ -1,6 +1,6 @@
 import { Menu } from '@mantine/core';
 import { Trash, Edit, Download, Photo } from 'tabler-icons-react';
-import { indexPropsType } from "../SearchBox/searchIndex";
+import { indexPropsType } from "../../../components/SearchBox/searchIndex";
 
 interface types {
     menuOpened: boolean,

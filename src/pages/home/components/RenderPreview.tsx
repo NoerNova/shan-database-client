@@ -2,7 +2,7 @@ import { useContext, Suspense, useState, useEffect } from 'react';
 import { Modal, Loader, Button } from '@mantine/core';
 import { ViewportWide, Download } from 'tabler-icons-react';
 
-import { ModalPreviewContext } from "./modalReducer";
+import { ModalPreviewContext } from "../context/modalReducer";
 
 import { dateFormat } from "utils/date";
 
@@ -55,7 +55,7 @@ const RenderPreview = () => {
             <div className={`flex justify-center items-center h-[500px] sm:h-[200px]`}>
               <FilesViewer item={item} sid={user.sid} />
             </div>
-            <div className={`absolute bottom-0 left-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
+            <div className={`absolute bottom-0 left-0 m-2 border-0 bg-gray-200/[.5] dark:bg-gray-500/[.7] rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
               <Button
                 onClick={() => handleViewer({
                   sid: user.sid, type: item.type, path: item.path, setImageViewer: setImageViewer
@@ -64,31 +64,19 @@ const RenderPreview = () => {
                 variant="default"
                 radius="xl"
                 color="dark"
-                styles={() => ({
-                  root: {
-                    '&:hover': {
-                      borderColor: 'white',
-                    },
-                  }
-                })}
+                style={{ border: 'none' }}
               >
                 View
               </Button>
             </div>
-            <div className={`absolute bottom-0 right-0 m-2 border-0 bg-gray-200/[.5] rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
+            <div className={`absolute bottom-0 right-0 m-2 border-0 bg-gray-200/[.5] dark:bg-gray-500/[.7] rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
               <Button
                 onClick={() => handleDownload({ sid: user.sid, path: item.path })}
                 leftIcon={<Download />}
                 variant="default"
                 radius="xl"
                 color="dark"
-                styles={() => ({
-                  root: {
-                    '&:hover': {
-                      borderColor: 'white',
-                    },
-                  }
-                })}
+                style={{ border: 'none' }}
               >
                 Download
               </Button>

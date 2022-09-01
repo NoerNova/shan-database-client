@@ -1,10 +1,10 @@
 import SearchBox from "@components/SearchBox/SearchBox";
-import DisplaySearchResult from "@components/DisplaySearchResult/DisplaySearchResult";
+import DisplaySearchResult from "@pages/home/components/DisplaySearchResult";
 
 function Home() {
   return (
     <div className="w-screen overflow-hidden">
-      <SearchBox />
+      <SearchBox searchSession="databases" />
       <DisplaySearchResult />
     </div>
   );

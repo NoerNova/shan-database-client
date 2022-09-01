@@ -8,15 +8,15 @@ import {
 } from "recoil-state/state";
 
 import { Loader, Pagination } from "@mantine/core";
-import { indexPropsType } from "../SearchBox/searchIndex";
+import { indexPropsType } from "../../../components/SearchBox/searchIndex";
 
 import { userTypes } from 'types/userTypes';
 
 import RenderCard from "./RenderCard";
-import useOutsideClick from "./useOutsideClick";
+import useOutsideClick from "../../../components/DisplaySearchResult/useOutsideClick";
 
-import { MenuReducer, MenuContext, initialMenuState } from './menuReducer';
-import { ModalPreviewReducer, ModalPreviewContext, initialPreviewState } from './modalReducer';
+import { MenuReducer, MenuContext, initialMenuState } from '../context/menuReducer';
+import { ModalPreviewReducer, ModalPreviewContext, initialPreviewState } from '../context/modalReducer';
 
 import RenderPreview from "./RenderPreview";
 

@@ -1,15 +1,15 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
 
-import { indexPropsType } from '../SearchBox/searchIndex';
+import { indexPropsType } from '../../../components/SearchBox/searchIndex';
 import { getImageThumbnail } from 'helpers/ImageThumbnail';
 import { userTypes } from 'types/userTypes';
 import { dateFormat } from "utils/date";
 import { Dots, DotsVertical } from 'tabler-icons-react';
 
-import { MenuContext } from "./menuReducer";
+import { MenuContext } from "../context/menuReducer";
 import RenderMenu from "./RenderMenu";
 
-import { ModalPreviewContext } from './modalReducer';
+import { ModalPreviewContext } from '../context/modalReducer';
 
 import { useMantineColorScheme } from "@mantine/core";
 
