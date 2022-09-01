@@ -1,3 +1,3 @@
 export interface searchTypes {
-  searchSession: "databases" | "contacts" | "staff";
+  searchSession: "databases" | "contacts" | "staffs";
 }

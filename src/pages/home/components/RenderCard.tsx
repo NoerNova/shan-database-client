@@ -1,6 +1,6 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
 
-import { indexPropsType } from '../../../components/SearchBox/searchIndex';
+import { indexPropsType } from '@components/SearchBox/searchIndexType';
 import { getImageThumbnail } from 'helpers/ImageThumbnail';
 import { userTypes } from 'types/userTypes';
 import { dateFormat } from "utils/date";

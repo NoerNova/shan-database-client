@@ -2,7 +2,7 @@ import { atom } from "recoil";
 import {
   indexPropsType,
   contactPropsType,
-} from "@components/SearchBox/searchIndex";
+} from "@components/SearchBox/searchIndexType";
 import { userTypes } from "types/userTypes";
 
 const searchResultState = atom<indexPropsType | contactPropsType | any>({

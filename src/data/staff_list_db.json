@@ -1,6 +1,6 @@
 [
   {
-    "id": 0,
+    "id": 1,
     "name": "NorHsangPha",
     "email": "creative@panglong.org",
     "phone": {
@@ -8,7 +8,31 @@
       "mm": ""
     },
     "address": "ChiangMai, Thanland",
-    "department": "",
-    "equipment": {}
+    "department": "IT",
+    "equipment": []
+  },
+  {
+    "id": 2,
+    "name": "YordKham",
+    "email": "shan.desk@panglong.org",
+    "phone": {
+      "th": "+66 0800001234",
+      "mm": "+95 0940001111"
+    },
+    "address": "ChiangMai, Thanland",
+    "department": "Shan Desk",
+    "equipment": []
+  },
+  {
+    "id": 3,
+    "name": "HarnHseng",
+    "email": "harnseng@panglong.org",
+    "phone": {
+      "th": "+66 0810009999",
+      "mm": "+95 0991114444"
+    },
+    "address": "ChiangMai, Thanland",
+    "department": "Radio Desk",
+    "equipment": []
   }
 ]

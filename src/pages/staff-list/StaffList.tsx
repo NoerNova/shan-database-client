@@ -1,10 +1,11 @@
 import SearchBox from "@components/SearchBox/SearchBox";
+import RenderStaffsList from "./components/RenderStaffsList";
 
 function StaffList() {
   return (
     <div className="w-screen overflow-hidden">
-      <SearchBox searchSession="staff" />
-      <h2>Staff List</h2>
+      <SearchBox searchSession="staffs" />
+      <RenderStaffsList />
     </div>
   );
 }

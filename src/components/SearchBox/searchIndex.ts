@@ -2,20 +2,14 @@ import Fuse from "fuse.js";
 import _ from "lodash";
 import indexDB from "@data/filelist_db.json";
 import contactDB from "@data/contect_llist_db.json";
+import staffDB from "@data/staff_list_db.json";
+import {
+  indexPropsType,
+  contactPropsType,
+  staffPropsType,
+} from "./searchIndexType";
 
-export interface indexPropsType {
-  id: number;
-  name: string;
-  type: string;
-  path: string;
-  create_time: {
-    $date: string;
-  };
-  modifiled_time: {
-    $date: string;
-  };
-}
-
+// Database Search
 export const searchIndex = async (
   searchValue: string
 ): Promise<indexPropsType[]> => {
@@ -38,25 +32,16 @@ export const searchIndex = async (
   return filtered;
 };
 
-export interface contactPropsType {
-  id: number;
-  name: string;
-  org: string;
-  email: string;
-  phone: Phone;
-  website: string;
-  address: string;
-}
-
-export interface Phone {
-  th: string;
-  mm: string;
-  xx: string;
-}
+/// Contact SEarch
 export const contactsIndex = async (
-  searchValue: string
+  searchValue?: string
 ): Promise<contactPropsType[]> => {
   const db: contactPropsType[] = JSON.parse(JSON.stringify(contactDB));
+
+  if (!searchValue) {
+    return db;
+  }
+
   const searcher = new Fuse<contactPropsType>(db, {
     keys: ["name", "org", "email", "phone", "website", "address"],
     isCaseSensitive: false,
@@ -65,6 +50,29 @@ export const contactsIndex = async (
   });
 
   const result = searcher.search(searchValue);
+  const filtered = result.map((r) => r.item);
+  return filtered;
+};
+
+// Staff Search
+export const staffIndex = async (
+  searchValue?: string
+): Promise<staffPropsType[]> => {
+  const db: staffPropsType[] = JSON.parse(JSON.stringify(staffDB));
+
+  if (!searchValue) {
+    return db;
+  }
+
+  const searcher = new Fuse<staffPropsType>(db, {
+    keys: ["name", "email", "phone", "address", "department", "equipment"],
+    isCaseSensitive: false,
+    includeScore: true,
+    useExtendedSearch: true,
+  });
+
+  const result = searcher.search(searchValue);
+
   const filtered = result.map((r) => r.item);
   return filtered;
 };

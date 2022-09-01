@@ -1,7 +1,7 @@
 import { getImagePath, getImageThumbnail } from '@helpers/ImageThumbnail';
 import { Image, Loader } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { indexPropsType } from '@components/SearchBox/searchIndex';
+import { indexPropsType } from '@components/SearchBox/searchIndexType';
 interface propsTypes {
   item: indexPropsType,
   sid: string,

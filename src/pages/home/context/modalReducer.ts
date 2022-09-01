@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { indexPropsType } from "../../../components/SearchBox/searchIndex";
+import { indexPropsType } from "@components/SearchBox/searchIndexType";
 import { userTypes } from "types/userTypes";
 
 export interface PreviewTypes {

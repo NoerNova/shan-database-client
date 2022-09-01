@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./searchBox.style.scss";
 import { Text } from "@mantine/core";
 import {
   searchIndex,
-  indexPropsType,
   contactsIndex,
-  contactPropsType
+  staffIndex
 } from "./searchIndex";
+
+import { indexPropsType, contactPropsType, staffPropsType } from '@components/SearchBox/searchIndexType';
+
 import { useRecoilState } from "recoil";
 import {
   searchResultState,
@@ -28,6 +30,7 @@ export default function SearchBox({ searchSession }: searchTypes) {
   const [searchTerm, setSearchTerm] = useState("");
   const [databaseSearchResult, setDatabaseSearchResult] = useState<indexPropsType[]>([]);
   const [contactSearchResult, setContactSearchResult] = useState<contactPropsType[]>([]);
+  const [staffSearchResult, setStaffSearchResult] = useState<staffPropsType[]>([]);
 
   const [filteredResult, setFilteredResult] = useRecoilState(searchResultState);
   const [noresult, setNoResult] = useRecoilState(noSearchResult);
@@ -35,8 +38,20 @@ export default function SearchBox({ searchSession }: searchTypes) {
   const [heading, setHeading] = useState("");
   const [loading, setLoading] = useRecoilState(searchLoading);
 
+  useMemo(() => {
+    //clear store search result on navigate
+    setFilteredResult([])
+  }, [])
+
   useEffect(() => {
     if (searchTerm.length <= 0) {
+      if (searchSession === 'contacts') {
+        contactSearch()
+        return;
+      } else if (searchSession === 'staffs') {
+        staffSearch()
+        return;
+      }
       setLoading(false);
       return;
     }
@@ -56,7 +71,7 @@ export default function SearchBox({ searchSession }: searchTypes) {
       case "contacts":
         setHeading("Contact Search")
         break;
-      case "staff":
+      case "staffs":
         setHeading("Staff Search")
       default:
         return
@@ -100,10 +115,12 @@ export default function SearchBox({ searchSession }: searchTypes) {
         return filteredDatabaseSearch(databaseSearchResult);
       case "contacts":
         return setFilteredResult(contactSearchResult);
+      case "staffs":
+        return setFilteredResult(staffSearchResult);
       default:
         return;
     }
-  }, [selector, databaseSearchResult])
+  }, [selector, databaseSearchResult, contactSearchResult, staffSearchResult]);
 
 
   const databaseSearch = async () => {
@@ -128,6 +145,21 @@ export default function SearchBox({ searchSession }: searchTypes) {
     }
 
     setContactSearchResult(search)
+    setLoading(false);
+  }
+
+  const staffSearch = async () => {
+    let search = await staffIndex(searchTerm);
+    console.log(search)
+
+    if (search.length == 0) {
+      setNoResult(true);
+      setLoading(false);
+      return null;
+    }
+
+    setStaffSearchResult(search)
+    setLoading(false);
   }
 
   const triggerSearch = async () => {
@@ -142,6 +174,8 @@ export default function SearchBox({ searchSession }: searchTypes) {
         return databaseSearch()
       case "contacts":
         return contactSearch()
+      case "staffs":
+        return staffSearch()
       default:
         return
     }
