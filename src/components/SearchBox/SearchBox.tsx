@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-
 import "./searchBox.style.scss";
-import { Chip } from "@mantine/core";
-import { useStyles } from "./searchBox.style";
-
-import { indexPropsType, searchIndex } from "./searchIndex";
+import { Text } from "@mantine/core";
+import {
+  searchIndex,
+  indexPropsType,
+  contactsIndex,
+  contactPropsType
+} from "./searchIndex";
 import { useRecoilState } from "recoil";
 import {
   searchResultState,
@@ -14,38 +16,24 @@ import {
 } from "recoil-state/state";
 import { suffix } from "./suffix";
 
-export default function SearchBox() {
-  const { classes } = useStyles();
+import { Search } from 'tabler-icons-react';
+import SuffixChip from "./SuffixChip";
+
+import { searchTypes } from "types/searchTypes";
+
+export default function SearchBox({ searchSession }: searchTypes) {
+
   const [selector, setSelector] = useRecoilState(searchSelector);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResult, setSearchResult] = useState<indexPropsType[]>([]);
+  const [databaseSearchResult, setDatabaseSearchResult] = useState<indexPropsType[]>([]);
+  const [contactSearchResult, setContactSearchResult] = useState<contactPropsType[]>([]);
+
   const [filteredResult, setFilteredResult] = useRecoilState(searchResultState);
   const [noresult, setNoResult] = useRecoilState(noSearchResult);
 
+  const [heading, setHeading] = useState("");
   const [loading, setLoading] = useRecoilState(searchLoading);
-
-  const changeSelector = (value: string[]) => {
-    if (value.length >= Object.entries(suffix).length || value.length <= 0) {
-      setSelector(["All"]);
-    } else {
-      if (value.length >= 2) {
-        let valueIncludeAll = value.includes("All");
-        let selectorIncludeAll = selector.includes("All");
-
-        if (valueIncludeAll && selectorIncludeAll) {
-          let result = value.filter((s) => s !== "All");
-          setSelector(result);
-        } else if (valueIncludeAll) {
-          setSelector(["All"]);
-        } else {
-          setSelector(value);
-        }
-      } else {
-        setSelector(value);
-      }
-    }
-  };
 
   useEffect(() => {
     if (searchTerm.length <= 0) {
@@ -59,6 +47,21 @@ export default function SearchBox() {
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);
+
+  useEffect(() => {
+    switch (searchSession) {
+      case "databases":
+        setHeading("Database Search")
+        break;
+      case "contacts":
+        setHeading("Contact Search")
+        break;
+      case "staff":
+        setHeading("Staff Search")
+      default:
+        return
+    }
+  }, [searchSession])
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     const value = (e.target as HTMLInputElement).value;
@@ -75,7 +78,7 @@ export default function SearchBox() {
     triggerSearch();
   };
 
-  const filteredSearch = (dataList: indexPropsType[]) => {
+  const filteredDatabaseSearch = (dataList: indexPropsType[]) => {
 
     if (selector.includes("All")) {
       setFilteredResult(dataList.slice(0, 500));
@@ -92,17 +95,18 @@ export default function SearchBox() {
   }
 
   useEffect(() => {
-    filteredSearch(searchResult);
-  }, [selector, searchResult])
-
-
-  const triggerSearch = async () => {
-    if (!searchTerm) {
-      setFilteredResult([]);
-      setLoading(false);
-      return;
+    switch (searchSession) {
+      case "databases":
+        return filteredDatabaseSearch(databaseSearchResult);
+      case "contacts":
+        return setFilteredResult(contactSearchResult);
+      default:
+        return;
     }
+  }, [selector, databaseSearchResult])
 
+
+  const databaseSearch = async () => {
     let search = await searchIndex(searchTerm);
 
     if (search.length == 0) {
@@ -111,32 +115,57 @@ export default function SearchBox() {
       return null;
     }
 
-    setSearchResult(search)
+    setDatabaseSearchResult(search)
+  }
+
+  const contactSearch = async () => {
+    let search = await contactsIndex(searchTerm);
+
+    if (search.length == 0) {
+      setNoResult(true);
+      setLoading(false);
+      return null;
+    }
+
+    setContactSearchResult(search)
+  }
+
+  const triggerSearch = async () => {
+    if (!searchTerm) {
+      setFilteredResult([]);
+      setLoading(false);
+      return;
+    }
+
+    switch (searchSession) {
+      case "databases":
+        return databaseSearch()
+      case "contacts":
+        return contactSearch()
+      default:
+        return
+    }
   };
 
   return (
     <div className="search-area-container bg-gray-700">
+      <div>
+        <Text
+          size="xl"
+          component="span"
+          align="center"
+          className="text-white text-2xl"
+        >
+          {heading}
+        </Text>
+      </div>
       <div className="search-box">
         <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">
           Search
         </label>
         <div className="relative">
           <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-            <svg
-              aria-hidden="true"
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
+            <Search className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </div>
           <input
             id="default-search"
@@ -148,32 +177,13 @@ export default function SearchBox() {
           />
           <button
             onClick={() => handleSearchButton()}
-            className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white absolute right-2.5 bottom-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Search
           </button>
         </div>
       </div>
-      <div className="chip-selector-container">
-        <Chip.Group
-          position="center"
-          multiple
-          defaultValue={["all"]}
-          value={selector}
-          onChange={changeSelector}
-        >
-          {
-            Object.keys(suffix).map((item, index) => (
-              <Chip key={index} classNames={classes} value={item}>
-                {item}
-              </Chip>
-            ))
-          }
-          <Chip classNames={classes} value="All">
-            All
-          </Chip>
-        </Chip.Group>
-      </div>
+      {searchSession === "databases" && <SuffixChip />}
     </div>
   );
 }

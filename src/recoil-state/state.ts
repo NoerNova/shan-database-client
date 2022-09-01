@@ -1,8 +1,11 @@
 import { atom } from "recoil";
-import { indexPropsType } from "@components/SearchBox/searchIndex";
+import {
+  indexPropsType,
+  contactPropsType,
+} from "@components/SearchBox/searchIndex";
 import { userTypes } from "types/userTypes";
 
-const searchResultState = atom<indexPropsType | any>({
+const searchResultState = atom<indexPropsType | contactPropsType | any>({
   key: "searchResultState",
   default: [],
 });
