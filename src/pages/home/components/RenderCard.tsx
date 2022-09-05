@@ -82,8 +82,8 @@ const RenderCard = ({ item, user }: CardTypes) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <li className={`relative rounded-xl p-5 sm:pt-5 sm:p-0 border-b hover:cursor-pointer hover:bg-gray-200 ${dark && 'hover:bg-gray-800'}`}>
-        <div className="grid grid-cols-7 gap-4 rounded-l sm:grid-cols-1">
-          <div className="col-span-6 grid grid-cols-6" onClick={() => handleItemSelected()}>
+        <div className="grid grid-cols-7 gap-4 rounded-l ">
+          <div className="col-span-6 grid grid-cols-6 sm:grid-cols-1" onClick={() => handleItemSelected()}>
             <div className="w-40 h-40 col-span-2 justify-center items-center rounded-xl sm:flex sm:items-center sm:w-full">
               <img
                 alt="thumb_nail"

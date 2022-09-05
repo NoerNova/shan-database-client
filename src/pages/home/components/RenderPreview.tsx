@@ -1,5 +1,6 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
-import { Modal, Loader, Button } from '@mantine/core';
+import { Modal, Loader, Button, Divider } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { ViewportWide, Download } from 'tabler-icons-react';
 
 import { ModalPreviewContext } from "../context/modalReducer";
@@ -17,6 +18,7 @@ const RenderPreview = () => {
   const [mouseHover, setMouseHover] = useState(false);
   const [imageViewer, setImageViewer] = useState(false);
   const [supportView, setSupportView] = useState(false);
+  const matches = useMediaQuery('(max-width: 639px)');
 
   const image_suffix_supported = ["jpg", "png", "gif", "svg", "bmp", "ico"];
 
@@ -39,7 +41,7 @@ const RenderPreview = () => {
       opened={modalState.opened}
       onClose={() => handleCloseModal()}
       centered
-      size="70%"
+      size={matches ? "100%" : "70%"}
       overlayOpacity={0.55}
       overlayBlur={3}
       transition="fade"
@@ -47,11 +49,11 @@ const RenderPreview = () => {
       transitionTimingFunction="ease"
     >
       <Suspense fallback={<Loader />}>
-        <div className="grid grid-cols-4 gap-12 sm:grid-cols-1 sm:gap-2">
+        <div className="grid border-2 p-10 grid-cols-6 gap-12 sm:grid-cols-1 sm:gap-2">
           <div
             onMouseOver={() => setMouseHover(true)}
             onMouseLeave={() => { setMouseHover(false) }}
-            className="relative flex col-span-2 justify-center align-center items-center">
+            className="relative flex col-span-3 justify-center align-center items-center">
             <div className={`flex justify-center items-center h-[500px] sm:h-[200px]`}>
               <FilesViewer item={item} sid={user.sid} />
             </div>
@@ -82,7 +84,8 @@ const RenderPreview = () => {
               </Button>
             </div>
           </div>
-          <div className="col-span-2">
+          <Divider className="col-span-1 sm:hidden" orientation="vertical" />
+          <div className="col-span-2 -ml-10 sm:ml-0">
             <div className="pb-5">
               <div className="font-bold text-2xl">{item.name}</div>
             </div>
