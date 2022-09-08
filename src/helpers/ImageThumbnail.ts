@@ -1,9 +1,24 @@
 import { forEach } from "lodash";
 import { suffix } from "@components/SearchBox/suffix";
 
+import zip from "@assets/filetypes-pack/zip.png";
+import music from "@assets/filetypes-pack/music.png";
+import text from "@assets/filetypes-pack/text.png";
+import fontFile from "@assets/filetypes-pack/font-file.png";
+import image from "@assets/filetypes-pack/image.png";
+import video from "@assets/filetypes-pack/video.png";
+
+import doc from "@assets/filetypes-pack/doc.png";
+import txt from "@assets/filetypes-pack/txt.png";
+import xls from "@assets/filetypes-pack/xls.png";
+import psd from "@assets/filetypes-pack/psd.png";
+import ai from "@assets/filetypes-pack/adobe-illustrator.png";
+import pdf from "@assets/filetypes-pack/pdf.png";
+import ppt from "@assets/filetypes-pack/ppt.png";
+import svg from "@assets/filetypes-pack/svg.png";
+
 const getThumbnailFromType = (type: string) => {
   let typeInclude = "";
-  let icon = "src/assets/filetypes-pack";
   const defaultImageLogo =
     "https://shannews.org/wp-content/uploads/2021/05/Shan-Logo-used-2018-1_Optimize.png";
 
@@ -15,44 +30,43 @@ const getThumbnailFromType = (type: string) => {
 
   switch (typeInclude) {
     case "Compress":
-      return `${icon}/zip.png`;
+      return zip;
     case "Audios":
-      return `${icon}/music.png`;
+      return music;
     case "Documents":
-      return `${icon}/text.png`;
+      return text;
     case "Fonts":
-      return `${icon}/font-file.png`;
+      return fontFile;
     case "Images":
-      return `${icon}/image.png`;
+      return image;
     case "Videos":
-      return `${icon}/video.png`;
+      return video;
     default:
       return defaultImageLogo;
   }
 };
 
 const getDefaultThumbnail = (type: string) => {
-  let icon = "src/assets/filetypes-pack";
 
   switch (type) {
     case "doc":
     case "docx":
-      return `${icon}/doc.png`;
+      return doc;
     case "txt":
-      return `${icon}/txt.png`;
+      return txt;
     case "xls":
     case "xlsx":
-      return `${icon}/xls.png`;
+      return xls;
     case "psd":
-      return `${icon}/psd.png`;
+      return psd;
     case "ai":
-      return `${icon}/adobe-illustrator.png`;
+      return ai;
     case "pdf":
-      return `${icon}/pdf.png`;
+      return pdf;
     case "ppt":
-      return `${icon}/ppt.png`;
+      return ppt;
     case "svg":
-      return `${icon}/svg.png`;
+      return svg;
     default:
       return getThumbnailFromType(type);
   }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Navigate, useOutlet } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
 
@@ -13,7 +13,10 @@ import { userTypes } from 'types/userTypes';
 import { Loader } from '@mantine/core';
 import NavBar from '@components/NabBar/NavBar';
 
-export const ProtectedRoute = () => {
+type ProtectedProps = {
+  children?: React.ReactNode;
+}
+export const ProtectedRoute = (props: ProtectedProps) => {
 
   const { token, credential, user } = useAuth();
   const outlet = useOutlet();

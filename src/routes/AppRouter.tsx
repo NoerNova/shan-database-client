@@ -1,10 +1,6 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { ContactList, Home, Login, Logout, StaffList } from "pages";
 import { ProtectedRoute } from "routes/ProtectedRoute";
-import NavBar from "@components/NabBar/NavBar";
-
-import Navbar from "@components/NabBar/NavBar";
 
 const AppRouter = () => {
   return (
