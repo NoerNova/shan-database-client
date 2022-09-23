@@ -6,11 +6,11 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
 //@ts-ignore
-import { worker } from "./mocks/browser"
+//import { worker } from "./mocks/browser"
 
-if (process.env.NODE_ENV === "development") {
-  worker.start();
-}
+//if (process.env.NODE_ENV === "development") {
+//  worker.start();
+//}
 
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
