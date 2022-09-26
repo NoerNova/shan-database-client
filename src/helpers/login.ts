@@ -1,6 +1,6 @@
 import { ezEncode, utf16to8 } from "../utils/get_sid";
 import axios from "axios";
-import convert from "xml-js";
+import { XMLParser } from "fast-xml-parser";
 
 const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
 
@@ -63,43 +63,19 @@ const login = async ({ username, password }: token): Promise<response> => {
     //   password: pwd,
     // });
     const response = await axios.post(url);
-    const xml2json = convert.xml2js(response.data);
+    const parser = new XMLParser();
+    let jsonData = parser.parse(response.data);
 
-    const jsonResponse: [getResponse] = xml2json.elements[0];
-
-    const getNestedObject = (nestedObj: any, pathArr: any[]) => {
-      return pathArr.reduce(
-        (obj, key) => (obj && obj[key] !== "undefined" ? obj[key] : undefined),
-        nestedObj
-      );
-    };
-
-    const sid =
-      jsonResponse[0].elements &&
-      jsonResponse[0].elements.filter((element) => element.name === "authSid");
-    const username =
-      jsonResponse[0].elements &&
-      jsonResponse[0].elements.filter((element) => element.name === "username");
-    const admingroup =
-      jsonResponse[0].elements &&
-      jsonResponse[0].elements.filter((element) => element.name === "isAdmin");
-    const authPassed =
-      jsonResponse[0].elements &&
-      jsonResponse[0].elements.filter(
-        (element) => element.name === "authPassed"
-      );
+    const sid = jsonData?.QDocRoot.authSid;
+    const username = jsonData?.QDocRoot.username;
+    const admingroup = jsonData?.QDocRoot.isAdmin;
+    const authPassed = jsonData?.QDocRoot.authPassed;
 
     data = {
-      sid: getNestedObject(sid && sid[0].elements, [0, "cdata"]),
-      username: getNestedObject(username && username[0].elements, [0, "cdata"]),
-      admingroup: getNestedObject(admingroup && admingroup[0].elements, [
-        0,
-        "cdata",
-      ]),
-      authPassed: getNestedObject(authPassed && authPassed[0].elements, [
-        0,
-        "cdata",
-      ]),
+      sid: sid,
+      username: username,
+      admingroup: admingroup,
+      authPassed: authPassed,
     };
   } catch (err) {
     console.log(err);
