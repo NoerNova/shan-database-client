@@ -1,17 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "ပီႈၼူၼ်းမူဝ်",
-    "org": "",
-    "email": "noonmo25@gmail.com",
-    "phone": {
-      "th": "",
-      "mm": ""
-    },
-    "website": "https://www.facebook.com/noon.mo.507",
-    "address": ""
-  },
-  {
     "id": "1",
     "name": "ပီႈၼူၼ်းမူဝ်",
     "website": "https://www.facebook.com/noon.mo.507",
@@ -54,21 +42,24 @@
     "name": "ၸၢႆးဢွင်ႇမိၼ့်ဢူး",
     "phone": {
       "th": "",
-      "mm": "9543051677"
+      "mm": "43051677"
     },
     "website": "https://www.facebook.com/me.saiaungmyintoo"
   },
   {
     "id": "8",
     "name": "ပီႈၶိူဝ်းသႅင်",
-    "phone": "967254474",
+    "phone": {
+      "th": "0967254474",
+      "mm": ""
+    },
     "email": "Khurhseng@gmail.com"
   },
   {
     "id": "9",
     "name": "ၼၢင်းၸၼ်ၼွႆ့",
     "phone": {
-      "th": "66926565266",
+      "th": "926565266",
       "mm": ""
     },
     "website": "https://www.facebook.com/nan.sannwe.56"
@@ -77,7 +68,7 @@
     "id": "10",
     "name": "ပီႈတုမ်ႇမွၵ်ႇႁၢၼ် + ၼၢင်းယိင်းၸၢမ်ႁွမ်",
     "phone": {
-      "th": "(66) 0894315406",
+      "th": "0894315406",
       "mm": ""
     }
   },
@@ -85,7 +76,7 @@
     "id": "11",
     "name": "ၼၢင်းသႅင်မိူင်းလီ (သမႃးၶူမ်းတႆး) ",
     "phone": {
-      "th": "(66) 0857089547",
+      "th": "0857089547",
       "mm": ""
     }
   },
@@ -104,7 +95,7 @@
     "id": "14",
     "name": "ၸၢႆးဢွင်ႇလႃ့ ",
     "phone": {
-      "th": "(66) 0857052202",
+      "th": "0857052202",
       "mm": ""
     },
     "website": "https://web.facebook.com/HsaiNumkong"
@@ -114,7 +105,7 @@
     "org": "Tai TV online",
     "name": "ပီႈၶမ်းဢိင်ႇ",
     "phone": {
-      "th": "(66) 0896366895",
+      "th": "0896366895",
       "mm": ""
     },
     "website": "https://web.facebook.com/sroingen"
@@ -124,7 +115,7 @@
     "org": "SSSNY ",
     "name": "ၼၢင်းၸၢမ်တွင်း",
     "phone": {
-      "th": "(66) 0876589551",
+      "th": "0876589551",
       "mm": ""
     }
   },
@@ -141,7 +132,7 @@
     "name": "ၸၢႆးထႅမ်ၶိူဝ်း ",
     "phone": {
       "th": "",
-      "mm": "959254167779"
+      "mm": "9254167779"
     }
   },
   {
@@ -150,7 +141,7 @@
     "name": "ၸၢႆးမျႅတ့်ဢွင်ႇ",
     "phone": {
       "th": "",
-      "mm": "95403721691, 95775655505"
+      "mm": "403721691, 775655505"
     }
   },
   {
@@ -158,7 +149,7 @@
     "name": "ပီႈယီႈမၢဝ်း",
     "phone": {
       "th": "",
-      "mm": "959455693999"
+      "mm": "9455693999"
     }
   },
   {
@@ -166,7 +157,7 @@
     "name": "ၸၢႆးသူ့ ပၢင်လူင်",
     "phone": {
       "th": "",
-      "mm": "95428336798"
+      "mm": "428336798"
     },
     "email": "Saisuplg@gmail.com\r\n"
   },
@@ -290,7 +281,7 @@
     "name": "ပီႈၵွၼ်းလႅင်း",
     "phone": {
       "th": "",
-      "mm": "959698283279"
+      "mm": "9698283279"
     }
   },
   {
@@ -362,7 +353,7 @@
   {
     "id": "46",
     "name": "ၸၢႆးမၢႆ (ထုင့်သၼိၼ်း) ",
-    "website": "https://www.facebook.com/profile.php?id=100011339134187&__cft__[0]=AZV_hT3NRTyVAWZwSZdswYhonemZV-3PFx3XCTb_EGagDZIdyLsEWbbFwyHNZZXy1cbPO4DVRKMFpenHyCylFg68t6LHIEucVJVjGkOili7yKQMLODXHB72PNfN8Do4-vmKEK7gXq-5GfL81T4iXYdskt87EbPFNqmxkJf5vB1wh-A&__tn__=-UC%2CP-R",
+    "website": "https://www.facebook.com/profile.php?id=100011339134187",
     "email": "saiaikmai1999@gmail.com"
   },
   {
@@ -446,10 +437,5 @@
     "org": "ၽူႈလဵပ်ႈႁဵၼ်း",
     "name": "Sai Kham Leik",
     "email": "saileik92@gmail.com"
-  },
-  {
-    "id": "59",
-    "org": "မိူင်းၵွၵ်ႇ",
-    "name": "Dr. ယိင်းငိုၼ်းဢွင်ႇ"
   }
 ]

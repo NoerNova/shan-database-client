@@ -42,13 +42,15 @@ const RenderContactList: React.FC = () => {
                     Object.keys(element.phone).map((key, index) => (
                         element.phone && element.phone[key] &&
                         <div key={index} className="flex flex-column">
-                            <p className="pr-2">{key}:</p>
+                            <p className="pr-2">{key === "mm" ? "(+95)" : key === "th" ? "(+66)" : ""}</p>
                             <p>{element.phone[key]}</p>
                         </div>
                     ))
                 }
             </td>
-            <td>{element.website}</td>
+            <td>
+                <a href={element.website} target="_blank">{element.website}</a>
+            </td>
             <td>{element.address}</td>
         </tr>
     ));

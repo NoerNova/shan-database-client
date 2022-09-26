@@ -61,7 +61,7 @@ export const ProtectedRoute = (props: ProtectedProps) => {
     <div className="grid content-center w-screen h-screen justify-center">
       <div className="flex justify-center items-center flex-col">
         <Loader />
-        <span>verifing please wait...</span>
+        <span>verifying please wait...</span>
       </div>
     </div>
   )
