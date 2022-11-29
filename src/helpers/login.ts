@@ -52,31 +52,40 @@ interface response {
 const login = async ({ username, password }: token): Promise<response> => {
   const pwd = ezEncode(utf16to8(password));
   const url = `${LOGIN_URL}user=${username}&pwd=${pwd}`;
-  //const mock_url = "/login";
 
   let data = <responseData>{};
   let error = <responseError>{};
 
+  // MARK: mock login
+  const mock_url = "/login";
   try {
-    // const response = await axios.post(mock_url, {
-    //   username: username,
-    //   password: pwd,
-    // });
-    const response = await axios.post(url);
-    const parser = new XMLParser();
-    let jsonData = parser.parse(response.data);
-
-    const sid = jsonData?.QDocRoot.authSid;
-    const username = jsonData?.QDocRoot.username;
-    const admingroup = jsonData?.QDocRoot.isAdmin;
-    const authPassed = jsonData?.QDocRoot.authPassed;
-
-    data = {
-      sid: sid,
+    const response = await axios.post(mock_url, {
       username: username,
-      admingroup: admingroup,
-      authPassed: authPassed,
-    };
+      password: pwd,
+    });
+
+    data = response?.data;
+
+    // END: mock login
+
+
+    // MARK: production login
+    // const response = await axios.post(url);
+    // const parser = new XMLParser();
+    // let jsonData = parser.parse(response.data);
+
+    // const sid = jsonData?.QDocRoot.authSid;
+    // const username = jsonData?.QDocRoot.username;
+    // const admingroup = jsonData?.QDocRoot.isAdmin;
+    // const authPassed = jsonData?.QDocRoot.authPassed;
+
+    // data = {
+    //   sid: sid,
+    //   username: username,
+    //   admingroup: admingroup,
+    //   authPassed: authPassed,
+    // };
+
   } catch (err) {
     console.log(err);
     error = err as responseError;
