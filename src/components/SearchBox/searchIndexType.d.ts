@@ -27,7 +27,9 @@ export interface Phone {
 
 export interface staffPropsType {
   id: number;
-  name: string;
+  name_en: string;
+  name_shn: string;
+  position: string;
   department: string;
   email?: string;
   phone?: Phone;

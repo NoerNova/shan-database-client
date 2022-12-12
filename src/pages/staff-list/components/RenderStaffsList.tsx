@@ -33,7 +33,9 @@ const RenderStaffList: React.FC = () => {
     const rows = currentList.map((element) => (
         <tr key={element.id}>
             <td>{element.id}</td>
-            <td>{element.name}</td>
+            <td>{element.name_en}</td>
+            <td>{element.name_shn}</td>
+            <td>{element.position}</td>
             <td>{element.department}</td>
             <td>{element.email}</td>
             <td>
@@ -48,7 +50,6 @@ const RenderStaffList: React.FC = () => {
                     ))
                 }
             </td>
-            <td>{element.address}</td>
             <td>
                 {
                     element.equipment &&
@@ -73,12 +74,12 @@ const RenderStaffList: React.FC = () => {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
+                                <th>Name (en)</th>
+                                <th>Name (shn)</th>
+                                <th>Position</th>
                                 <th>Department</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Address</th>
-                                <th>Equipment</th>
                             </tr>
                         </thead>
                         <tbody>{rows}</tbody>

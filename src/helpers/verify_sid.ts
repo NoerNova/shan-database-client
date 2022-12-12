@@ -19,13 +19,13 @@ interface response {
 
 const verifyAuth = async (sid: string): Promise<response> => {
   const url = `${GET_THUMB}&sid=${sid}&path=${LOGO_IMAGE_PATH}&timestamp=${new Date().getTime()}`;
-  const mock_url = "/verify_sid";
+  // const mock_url = "/verify_sid";
 
   let data = <responseData>{};
   let error = <responseError>{};
 
   try {
-    const response = await axios.get(mock_url);
+    const response = await axios.get(url);
     data = response?.data;
   } catch (err) {
     error = err as responseError;

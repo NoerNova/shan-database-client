@@ -1,38 +1,286 @@
 [
   {
     "id": 1,
-    "name": "NorHsangPha",
-    "email": "creative@panglong.org",
+    "name_en": "Sai KhamPhu",
+    "name_shn": "ၸၢႆးၶမ်းၽူး",
+    "position": "ၽူႈၸတ်းၵၢၼ်လူင်",
+    "email": "shan@panglong.org",
     "phone": {
-      "th": "0863398510",
-      "mm": ""
+      "mm": "(+95) 098-9038-7776"
     },
-    "address": "ChiangMai, Thanland",
-    "department": "IT",
-    "equipment": []
+    "department": "CEO"
   },
   {
     "id": 2,
-    "name": "YordKham",
-    "email": "shan.desk@panglong.org",
+    "name_en": "Sai YeePhongMueng",
+    "name_shn": "ၸၢႆးယီႈၽူင်းမိူင်း",
+    "position": "Editor in Chief",
+    "email": "ce@panglong.org",
     "phone": {
-      "th": "+66 0800001234",
-      "mm": "+95 0940001111"
+      "th": "(+66) 085-717-4906"
     },
-    "address": "ChiangMai, Thanland",
-    "department": "Shan Desk",
-    "equipment": []
+    "department": "CE"
   },
   {
     "id": 3,
-    "name": "HarnHseng",
-    "email": "harnseng@panglong.org",
+    "name_en": "Nang YeHom",
+    "name_shn": "ၼၢင်းယေႈႁွမ်",
+    "position": "ၽူႈၸတ်းၵၢၼ်ႁွင်ႈၶၢဝ်ႇၾၢႆႇတႆး",
+    "email": "shan.desk@panglong.org",
     "phone": {
-      "th": "+66 0810009999",
-      "mm": "+95 0991114444"
+      "th": "(+66) 087-172-4543"
     },
-    "address": "ChiangMai, Thanland",
-    "department": "Radio Desk",
-    "equipment": []
+    "department": "Shan News"
+  },
+  {
+    "id": 4,
+    "name_en": "Sai MyoOo",
+    "name_shn": "ၸၢႆးမဵဝ်းဢူး",
+    "position": "ၽူႈၸတ်းၵၢၼ်ႁွင်ႈၶၢဝ်ႇၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "tv@paglong.org",
+    "phone": {
+      "mm": "(+95) 098-8299-0511"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 5,
+    "name_en": "Nang MweOo",
+    "name_shn": "ၼၢင်းမူၺ်ဢူး ",
+    "position": "ၽူႈၸတ်းၵၢၼ်လုမ်း",
+    "email": "office@panglong.org",
+    "phone": {
+      "th": "(+66) 093-258-2789"
+    },
+    "department": "Office"
+  },
+  {
+    "id": 6,
+    "name_en": "Nang MewKhur",
+    "name_shn": "ၼၢင်းမူၺ်ၶိူဝ်း",
+    "position": "ၽူႈၸတ်းၵၢၼ်ၾၢႆႇႁွင်ႈၵၢၼ်ငိုၼ်း",
+    "email": "finance@panglong.org",
+    "phone": {
+      "th": "(+66) 083-579-1916"
+    },
+    "department": "Finance"
+  },
+  {
+    "id": 7,
+    "name_en": "Sai PhuHsang",
+    "name_shn": "ၸၢႆးၽူးသႅင်",
+    "position": "ၽူႈၸတ်းၵၢၼ်သဵၼ်ႈမၢႆငိုၼ်း",
+    "email": "pusaeng55@gmail.com",
+    "phone": {
+      "th": "(+66) 096-658-8644"
+    },
+    "department": "Finance"
+  },
+  {
+    "id": 8,
+    "name_en": "Sai NorHsangPha",
+    "name_shn": "ၸၢႆးၼေႃႇသႅင်ၾႃႉ",
+    "position": "ၽူႈၸတ်းၵၢၼ်ၾၢႆႇ IT လႄႈ webmaster",
+    "email": "creative@panglong.org",
+    "phone": {
+      "th": "(+66) 086-339-8510"
+    },
+    "department": "IT"
+  },
+  {
+    "id": 9,
+    "name_en": "Sai HanLu",
+    "name_shn": "ၸၢႆးႁၢၼ်ႇလူႇ",
+    "position": "Social Online Manager",
+    "email": "media@panglong.org",
+    "phone": {
+      "th": "(+66) 089-758 -0150"
+    },
+    "department": "IT"
+  },
+  {
+    "id": 10,
+    "name_en": "Nang LurnKhur",
+    "name_shn": "ၼၢင်းလိုၼ်းၶိူဝ်း",
+    "position": "ၽူႈၸတ်းၵၢၼ်ၾၢႆႇ Membership",
+    "email": "membership@panglong.org",
+    "phone": {
+      "th": "(+66) 080-215-3998"
+    },
+    "department": "Membership"
+  },
+  {
+    "id": 11,
+    "name_en": "Sai HarnHsang",
+    "name_shn": "ၸၢႆးႁၢၼ်သႅင်",
+    "position": "Radio producer",
+    "email": "ae.shan@panglong.org",
+    "phone": {
+      "mm": "(+95) 097-7200-0837"
+    },
+    "department": "Shan News"
+  },
+  {
+    "id": 12,
+    "name_en": "Sai YordKham",
+    "name_shn": "ၸၢႆးယွတ်ႈၶမ်း",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇတႆး",
+    "email": "yksaithursday@gmail.com",
+    "phone": {
+      "th": "(+66) 099-381-2310"
+    },
+    "department": "Shan News"
+  },
+  {
+    "id": 13,
+    "name_en": "Nang SamHom",
+    "name_shn": "ၼၢင်းၸၢမ်ႁွမ်",
+    "position": "ၽူႈၸတ်းလၢႆးၵၢၼ်ၾၢႆႇရေႇတီႇယူဝ်ႇ",
+    "email": "radio@panglong.org",
+    "phone": {
+      "th": "(+66) 091-542-5894"
+    },
+    "department": "Shan News"
+  },
+  {
+    "id": 14,
+    "name_en": "Sai HsangYord",
+    "name_shn": "ၸၢႆးသႅင်ယွတ်ႈ",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇတႆး",
+    "email": null,
+    "phone": {
+      "mm": "(+95) 094-2823-1392"
+    },
+    "department": "Shan News"
+  },
+  {
+    "id": 15,
+    "name_en": "Nang HsangNoom",
+    "name_shn": "ၼၢင်းသႅင်ၼုမ်ႇ",
+    "position": "ၽူႈထတ်းလိၵ်ႈၾၢႆႇမၢၼ်ႈ",
+    "email": "burmese.desk@panglong.org",
+    "phone": {
+      "th": "(+66) 094-720-8375"
+    },
+    "department": "Burmese News"
+  },
+  {
+    "id": 16,
+    "name_en": "Nang HsangPhu",
+    "name_shn": "ၼၢင်းသႅင်ၽူး",
+    "position": "ၵႅမ်ၽူႈထတ်းလိၵ်ႈၾၢႆႇမၢၼ်ႈ",
+    "email": "burmese.reporter@panglong.org",
+    "phone": {
+      "th": "(+66) 063-020-8801"
+    },
+    "department": "Burmese News"
+  },
+  {
+    "id": 17,
+    "name_en": "Nang HsangLi",
+    "name_shn": "ၼၢင်းသႅင်လီ",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇမၢၼ်ႈ",
+    "email": "saomorkkon18@gmail.com",
+    "phone": {
+      "th": "(+66) 061-494-2129"
+    },
+    "department": "Burmese News"
+  },
+  {
+    "id": 18,
+    "name_en": "Sai HsangLeang",
+    "name_shn": "ၸၢႆးသႅင်လႅင်",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇမၢၼ်ႈ",
+    "email": "hsengleng442@gmail.com",
+    "phone": {
+      "th": "(+66) 098-451-3562"
+    },
+    "department": "Burmese News"
+  },
+  {
+    "id": 19,
+    "name_en": "Sai LeangHarn",
+    "name_shn": "ၸၢႆးလႅင်းႁၢၼ်",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇမၢၼ်ႈ",
+    "email": "saithihan91@gmail.com",
+    "phone": {
+      "th": "(+66) 094-925-3741"
+    },
+    "department": "Burmese News"
+  },
+  {
+    "id": 20,
+    "name_en": "Nang HsangHom",
+    "name_shn": "ၼၢင်းသႅင်ႁွမ်",
+    "position": "ၵႅမ်ၽူႈထတ်းၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "hsenghom4724@gmail.com",
+    "phone": {
+      "th": "(+66) 098-473-6650"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 21,
+    "name_en": "Nang OumMew",
+    "name_shn": "ၼၢင်းဢုမ်ႈမူၺ်",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "video.reporter@panglong.org",
+    "phone": {
+      "mm": "(+95) 097-7034-1744"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 22,
+    "name_en": "Sai YeKornTai",
+    "name_shn": "ၸၢႆးယေႈၵွၼ်တႆး",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "saiyekontai@gmail.com",
+    "phone": {
+      "mm": "(+95) 098-443-3094"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 23,
+    "name_en": "Nang MoHsai",
+    "name_shn": "ၼၢင်းမူဝ်သႂ်",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "moseaipl@gmail.com",
+    "phone": {
+      "th": "(+66) 098-529-7968"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 24,
+    "name_en": "Sai SawHsu",
+    "name_shn": "ၸၢႆးသေႃးသိုဝ်ႉ",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇဝီႊၻီႊဢူဝ်ႊ",
+    "email": "hsawhsu2018@gmail.com",
+    "phone": {
+      "th": "(+66) 095-292-2090"
+    },
+    "department": "TV"
+  },
+  {
+    "id": 25,
+    "name_en": "Nang Liek",
+    "name_shn": "ၼၢင်းလဵၵ်ႉ",
+    "position": "ၽူႈႁုင်မိုဝ်ႉတႃႇၽူႈႁၢပ်ႇၵၢၼ်",
+    "email": null,
+    "phone": {
+      "th": "(+66) 084-609-8747"
+    },
+    "department": "Office"
+  },
+  {
+    "id": 26,
+    "name_en": "Sai HsangYa",
+    "name_shn": "ၸၢႆးသႅင်ယ",
+    "position": "ၽူႈသိုဝ်ႇၶၢဝ်ႇၾၢႆႇတႆး (part-time)",
+    "email": null,
+    "phone": null,
+    "department": "Shan News"
   }
 ]
