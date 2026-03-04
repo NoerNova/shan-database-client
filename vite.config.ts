@@ -4,20 +4,23 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    host: "0.0.0.0",
-    origin: "https://search.shancloud.local",
-    hmr: {
-      host: "search.shancloud.local",
-      port: 3000,
-      protocol: "ws",
-    },
-    port: 3000,
-    strictPort: true,
-  },
   // server: {
+  //   host: "0.0.0.0",
+  //   origin: "https://search.shancloud.local",
+  //   hmr: {
+  //     host: "search.shancloud.local",
+  //     port: 3000,
+  //     protocol: "ws",
+  //   },
   //   port: 3000,
+  //   strictPort: true,
   // },
+  server: {
+    port: 3000,
+    proxy: {
+      "/api": { target: "http://localhost:3001", changeOrigin: true },
+    },
+  },
   plugins: [
     react({
       jsxRuntime: "classic",

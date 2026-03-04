@@ -30,10 +30,22 @@ const userState = atom<userTypes | any>({
   default: null,
 });
 
+const searchPage = atom<number>({
+  key: "searchPage",
+  default: 1,
+});
+
+const searchTotalCount = atom<number>({
+  key: "searchTotalCount",
+  default: 0,
+});
+
 export {
   searchResultState,
   searchSelector,
   searchLoading,
   noSearchResult,
   userState,
+  searchPage,
+  searchTotalCount,
 };
