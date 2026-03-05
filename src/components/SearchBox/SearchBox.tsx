@@ -2,12 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import "./searchBox.style.scss";
 import { Text } from "@mantine/core";
 import {
-  searchIndex,
   contactsIndex,
   staffIndex
 } from "./searchIndex";
 
-import { indexPropsType, contactPropsType, staffPropsType } from '@components/SearchBox/searchIndexType';
+import { contactPropsType, staffPropsType } from '@components/SearchBox/searchIndexType';
 
 import { useRecoilState } from "recoil";
 import {
@@ -15,6 +14,8 @@ import {
   searchSelector,
   searchLoading,
   noSearchResult,
+  searchPage,
+  searchTotalCount,
 } from "recoil-state/state";
 import { suffix } from "./suffix";
 
@@ -28,7 +29,6 @@ export default function SearchBox({ searchSession }: searchTypes) {
   const [selector, setSelector] = useRecoilState(searchSelector);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [databaseSearchResult, setDatabaseSearchResult] = useState<indexPropsType[]>([]);
   const [contactSearchResult, setContactSearchResult] = useState<contactPropsType[]>([]);
   const [staffSearchResult, setStaffSearchResult] = useState<staffPropsType[]>([]);
 
@@ -38,9 +38,13 @@ export default function SearchBox({ searchSession }: searchTypes) {
   const [heading, setHeading] = useState("");
   const [loading, setLoading] = useRecoilState(searchLoading);
 
+  const [page, setPage] = useRecoilState(searchPage);
+  const [, setTotalCount] = useRecoilState(searchTotalCount);
+
   useMemo(() => {
     //clear store search result on navigate
-    setFilteredResult([])
+    setFilteredResult([]);
+    setPage(1);
   }, [])
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export default function SearchBox({ searchSession }: searchTypes) {
 
     const timeout = setTimeout(() => {
       triggerSearch();
-    }, 1000);
+    }, 400);
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);
@@ -83,6 +87,7 @@ export default function SearchBox({ searchSession }: searchTypes) {
     setLoading(true);
     setNoResult(false);
     setFilteredResult([]);
+    setTotalCount(0);
     setSearchTerm(value);
   };
 
@@ -90,29 +95,56 @@ export default function SearchBox({ searchSession }: searchTypes) {
     setLoading(true);
     setFilteredResult([]);
     setNoResult(false);
+    setTotalCount(0);
     triggerSearch();
   };
 
-  const filteredDatabaseSearch = (dataList: indexPropsType[]) => {
+  const databaseSearch = async (targetPage = 1) => {
+    const typeExts = selector.includes("All")
+      ? []
+      : selector.flatMap((s) => suffix[s] ?? []);
+    const params = new URLSearchParams({ q: searchTerm, page: String(targetPage), limit: "10" });
+    if (typeExts.length > 0) params.set("types", typeExts.join(","));
 
-    if (selector.includes("All")) {
-      setFilteredResult(dataList.slice(0, 500));
-    } else {
-      const suffixFilter: string[] = selector.map((s) => suffix[s]).flat();
-      const searchFiltered = dataList.filter((d) =>
-        suffixFilter.includes(d.type)
-      );
-
-      setFilteredResult(searchFiltered.slice(0, 500));
+    try {
+      const res = await fetch(`/api/search?${params}`);
+      if (!res.ok) throw new Error(`${res.status}`);
+      const data: { total: number; results: unknown[] } = await res.json();
+      if (data.total === 0) {
+        setNoResult(true);
+        setLoading(false);
+        setFilteredResult([]);
+        setTotalCount(0);
+        return;
+      }
+      setTotalCount(data.total);
+      setFilteredResult(data.results as any);
+      setLoading(false);
+    } catch {
+      setNoResult(true);
+      setLoading(false);
     }
+  };
 
-    setLoading(false);
-  }
+  // Selector chip changed → re-fetch at page 1
+  useEffect(() => {
+    if (searchSession !== "databases" || !searchTerm) return;
+    setPage(1);
+    setLoading(true);
+    setNoResult(false);
+    databaseSearch(1);
+  }, [selector]);
 
+  // Page atom changed (user clicked Pagination) → fetch new page
+  useEffect(() => {
+    if (searchSession !== "databases" || !searchTerm) return;
+    setLoading(true);
+    databaseSearch(page);
+  }, [page]);
+
+  // Contacts/staffs results
   useEffect(() => {
     switch (searchSession) {
-      case "databases":
-        return filteredDatabaseSearch(databaseSearchResult);
       case "contacts":
         return setFilteredResult(contactSearchResult);
       case "staffs":
@@ -120,20 +152,7 @@ export default function SearchBox({ searchSession }: searchTypes) {
       default:
         return;
     }
-  }, [selector, databaseSearchResult, contactSearchResult, staffSearchResult]);
-
-
-  const databaseSearch = async () => {
-    let search = await searchIndex(searchTerm);
-
-    if (search.length == 0) {
-      setNoResult(true);
-      setLoading(false);
-      return null;
-    }
-
-    setDatabaseSearchResult(search)
-  }
+  }, [contactSearchResult, staffSearchResult]);
 
   const contactSearch = async () => {
     let search = await contactsIndex(searchTerm);
@@ -171,7 +190,8 @@ export default function SearchBox({ searchSession }: searchTypes) {
 
     switch (searchSession) {
       case "databases":
-        return databaseSearch()
+        setPage(1);
+        return databaseSearch(1)
       case "contacts":
         return contactSearch()
       case "staffs":

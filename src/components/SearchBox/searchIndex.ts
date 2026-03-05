@@ -1,6 +1,5 @@
+import FlexSearch from "flexsearch";
 import Fuse from "fuse.js";
-import _ from "lodash";
-import indexDB from "@data/filelist_db.json";
 import contactDB from "@data/contect_llist_db.json";
 import staffDB from "@data/staff_list_db.json";
 import {
@@ -9,38 +8,65 @@ import {
   staffPropsType,
 } from "./searchIndexType";
 
-// Database Search
+// --- File index (FlexSearch, lazy-loaded via fetch) ---
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fileIndex = new FlexSearch.Document<any>({
+  id: "id",
+  index: [
+    { field: "name", tokenize: "forward", resolution: 9 },
+    { field: "path", tokenize: "forward", resolution: 4 },
+  ],
+  store: true,
+});
+
+let initPromise: Promise<void> | null = null;
+let indexReady = false;
+
+async function initIndex(): Promise<void> {
+  if (indexReady) return;
+  if (initPromise) return initPromise;
+  initPromise = fetch("/data/filelist_db.json")
+    .then((r) => r.json())
+    .then((data: indexPropsType[]) => {
+      data.forEach((r) => fileIndex.add(r));
+      indexReady = true;
+    });
+  return initPromise;
+}
+
 export const searchIndex = async (
   searchValue: string
 ): Promise<indexPropsType[]> => {
-  const db: indexPropsType[] = JSON.parse(JSON.stringify(indexDB));
-  const searcher = new Fuse<indexPropsType>(db, {
-    keys: [
-      "path",
-      {
-        name: "name",
-        weight: 2,
-      },
-    ],
-    isCaseSensitive: false,
-    includeScore: true,
-    useExtendedSearch: true,
-  });
+  await initIndex();
 
-  const result = searcher.search(searchValue);
-  const filtered = result.map((r) => r.item);
-  return filtered;
+  const rawResults = fileIndex.search(searchValue, { enrich: true }) as Array<{
+    field: string;
+    result: Array<{ id: number; doc: indexPropsType }>;
+  }>;
+
+  // De-duplicate across name/path field hits
+  const seen = new Set<number>();
+  const items: indexPropsType[] = [];
+  for (const fieldResult of rawResults) {
+    for (const hit of fieldResult.result) {
+      if (!seen.has(hit.id)) {
+        seen.add(hit.id);
+        items.push(hit.doc);
+      }
+    }
+  }
+  return items;
 };
 
-/// Contact SEarch
+// --- Contact search (Fuse.js, small static DB) ---
+
 export const contactsIndex = async (
   searchValue?: string
 ): Promise<contactPropsType[]> => {
-  const db: contactPropsType[] = JSON.parse(JSON.stringify(contactDB));
+  const db = contactDB as unknown as contactPropsType[];
 
-  if (!searchValue) {
-    return db;
-  }
+  if (!searchValue) return db;
 
   const searcher = new Fuse<contactPropsType>(db, {
     keys: ["name", "org", "email", "phone", "website", "address"],
@@ -49,20 +75,17 @@ export const contactsIndex = async (
     useExtendedSearch: true,
   });
 
-  const result = searcher.search(searchValue);
-  const filtered = result.map((r) => r.item);
-  return filtered;
+  return searcher.search(searchValue).map((r) => r.item);
 };
 
-// Staff Search
+// --- Staff search (Fuse.js, small static DB) ---
+
 export const staffIndex = async (
   searchValue?: string
 ): Promise<staffPropsType[]> => {
-  const db: staffPropsType[] = JSON.parse(JSON.stringify(staffDB));
+  const db = staffDB as unknown as staffPropsType[];
 
-  if (!searchValue) {
-    return db;
-  }
+  if (!searchValue) return db;
 
   const searcher = new Fuse<staffPropsType>(db, {
     keys: ["name", "email", "phone", "address", "department", "equipment"],
@@ -71,8 +94,5 @@ export const staffIndex = async (
     useExtendedSearch: true,
   });
 
-  const result = searcher.search(searchValue);
-
-  const filtered = result.map((r) => r.item);
-  return filtered;
+  return searcher.search(searchValue).map((r) => r.item);
 };

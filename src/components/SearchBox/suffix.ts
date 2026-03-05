@@ -17,7 +17,7 @@ export const suffix: suffixTypes = {
     "pmd",
     "wps",
   ],
-  Fonts: ["ttf", "TTF", "woff", "woff2"],
+  Fonts: ["ttf", "woff", "woff2"],
   Images: [
     "jpg",
     "jpeg",
@@ -33,7 +33,6 @@ export const suffix: suffixTypes = {
   ],
   Videos: [
     "mp4",
-    "MOV",
     "mov",
     "wmv",
     "vob",
