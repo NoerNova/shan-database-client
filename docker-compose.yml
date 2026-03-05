@@ -1,0 +1,35 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.7
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data:/meili_data
+    env_file:
+      - ../shan-database-server/.env
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+
+  hono_proxy:
+    build:
+      context: ../shan-database-server/server
+    ports:
+      - "3001:3001"
+    env_file:
+      - ../shan-database-server/.env
+    environment:
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_SEARCH_KEY=${MEILI_SEARCH_KEY}
+    depends_on:
+      - meilisearch
+
+  frontend:
+    build:
+      context: .
+    ports:
+      - "3000:80"
+    depends_on:
+      - hono_proxy
+
+volumes:
+  meili_data:
