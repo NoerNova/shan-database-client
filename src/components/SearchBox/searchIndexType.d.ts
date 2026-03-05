@@ -9,6 +9,7 @@ export interface indexPropsType {
   modifiled_time: {
     $date: string;
   };
+  _formatted?: { name?: string; path?: string };
 }
 
 export interface contactPropsType {

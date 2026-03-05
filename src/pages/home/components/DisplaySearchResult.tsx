@@ -9,7 +9,8 @@ import {
   searchTotalCount,
 } from "recoil-state/state";
 
-import { Loader, Pagination } from "@mantine/core";
+import { Skeleton, Pagination } from "@mantine/core";
+import { FileOff } from "tabler-icons-react";
 import { indexPropsType } from '@components/SearchBox/searchIndexType';
 
 import { userTypes } from 'types/userTypes';
@@ -54,8 +55,20 @@ const DisplaySearchResult: React.FC = () => {
       <ModalPreviewContext.Provider value={{ modalState, modalDispatch }}>
         <div
           className="flex m-10 items-center justify-center">
-          {loading && <Loader color="gray" />}
-          {!loading && resultList.length <= 0 && noresult && <p>No Result</p>}
+          {loading && (
+            <div className="rounded-lg p-10 shadow-2xl w-full max-w-3xl">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} height={120} mb={8} radius="xl" />
+              ))}
+            </div>
+          )}
+          {!loading && resultList.length <= 0 && noresult && (
+            <div className="flex flex-col items-center gap-3 text-gray-400 mt-20">
+              <FileOff size={48} strokeWidth={1} />
+              <p className="text-lg font-medium">No results found</p>
+              <p className="text-sm">Try a different keyword or file type filter</p>
+            </div>
+          )}
           {currentList.length > 0 &&
             <div
               ref={wrapperRef}

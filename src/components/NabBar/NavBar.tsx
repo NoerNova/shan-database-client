@@ -15,7 +15,7 @@ import { matchPath, useLocation } from "react-router-dom"
 
 const routes = [
   { name: "Database Search", path: "/" },
-  { name: "Contect List", path: "/contact-list" },
+  { name: "Contact List", path: "/contact-list" },
   { name: "Staff List", path: "/staff-list" },
 ];
 
