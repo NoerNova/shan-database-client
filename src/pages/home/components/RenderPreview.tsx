@@ -1,5 +1,5 @@
 import { useContext, Suspense, useState, useEffect } from 'react';
-import { Modal, Loader, Button, Divider } from '@mantine/core';
+import { Modal, Loader, Button, Divider, useMantineColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { ViewportWide, Download } from 'tabler-icons-react';
 
@@ -14,6 +14,8 @@ import FilesViewer from '@helpers/FilesViewer';
 const RenderPreview = () => {
 
   const { modalState, modalDispatch } = useContext(ModalPreviewContext);
+  const { colorScheme } = useMantineColorScheme();
+  const dark = colorScheme === 'dark';
 
   const [mouseHover, setMouseHover] = useState(false);
   const [imageViewer, setImageViewer] = useState(false);
@@ -57,7 +59,7 @@ const RenderPreview = () => {
             <div className={`flex justify-center items-center h-[500px] sm:h-[200px]`}>
               <FilesViewer item={item} sid={user.sid} />
             </div>
-            <div className={`absolute bottom-0 left-0 m-2 border-0 bg-gray-200/[.5] dark:bg-gray-500/[.7] rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
+            <div className={`absolute bottom-0 left-0 m-2 border-0 ${dark ? "bg-gray-500/[.7]" : "bg-gray-200/[.5]"} rounded-full ${mouseHover && supportView ? "visible" : "invisible"} sm:invisible`}>
               <Button
                 onClick={() => handleViewer({
                   sid: user.sid, type: item.type, path: item.path, setImageViewer: setImageViewer
@@ -71,7 +73,7 @@ const RenderPreview = () => {
                 View
               </Button>
             </div>
-            <div className={`absolute bottom-0 right-0 m-2 border-0 bg-gray-200/[.5] dark:bg-gray-500/[.7] rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
+            <div className={`absolute bottom-0 right-0 m-2 border-0 ${dark ? "bg-gray-500/[.7]" : "bg-gray-200/[.5]"} rounded-full ${mouseHover ? "visible" : "invisible"} sm:invisible`}>
               <Button
                 onClick={() => handleDownload({ sid: user.sid, path: item.path })}
                 leftIcon={<Download />}
@@ -94,11 +96,11 @@ const RenderPreview = () => {
               <p>{item.type}</p>
             </div>
             <div className="pb-3">
-              <p className="font-bold text-l">create date: </p>
+              <p className="font-bold text-l">Created: </p>
               <p className="font-medium">{dateFormat(item.create_time.$date)}</p>
             </div>
             <div className="">
-              <p className="font-bold text-l">modifiled date: </p>
+              <p className="font-bold text-l">Modified: </p>
               <p className="font-medium">{dateFormat(item.modifiled_time.$date)}</p>
             </div>
           </div>
