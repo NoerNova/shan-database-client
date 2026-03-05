@@ -25,3 +25,11 @@ dist-ssr
 
 # env
 .env
+
+# local workspace
+src/helpers/login.ts
+src/helpers/verify_sid.ts
+vite.config.ts
+
+*.tar
+*.tar.*
