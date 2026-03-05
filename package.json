@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "date-fns": "^2.29.1",
     "dayjs": "^1.11.4",
     "fast-xml-parser": "^4.0.10",
+    "flexsearch": "^0.8.212",
     "fuse.js": "^6.6.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
@@ -37,6 +38,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/crypto-js": "^4.1.1",
+    "@types/flexsearch": "^0.7.42",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-virtualized": "^9.21.21",
